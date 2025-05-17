@@ -4,62 +4,70 @@ namespace App\Http\Controllers;
 
 use App\Models\MasterUnit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MasterUnitController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $units = MasterUnit::all();
+        return view('master_unit.index', compact('units'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nama_unit' => 'required|string|max:100|unique:master_unit,nama_unit',
+        ], [
+            'nama_unit.unique' => 'Nama unit sudah ada, harap gunakan yang lain.',
+        ]);
+
+        MasterUnit::create($validated);
+
+        return redirect('/master-unit')->with('success', 'Data Unit berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(MasterUnit $masterUnit)
+    public function edit($id)
     {
-        //
+        $unit = MasterUnit::findOrFail($id);
+        return view('master_unit.edit', compact('unit'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(MasterUnit $masterUnit)
+    public function update(Request $request, $id)
     {
-        //
+        $unit = MasterUnit::findOrFail($id);
+
+        $validated = $request->validate([
+            'nama_unit' => 'required|string|max:100|unique:master_unit,nama_unit,' . $unit->id_unit . ',id_unit',
+        ], [
+            'nama_unit.unique' => 'Nama unit sudah ada, harap gunakan yang lain.',
+        ]);
+
+        $unit->update($validated);
+
+        return redirect('/master-unit')->with('success', 'Data Unit berhasil diperbarui.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, MasterUnit $masterUnit)
+    public function destroy($id)
     {
-        //
-    }
+        $unit = MasterUnit::findOrFail($id);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(MasterUnit $masterUnit)
-    {
-        //
+        if (
+            $unit->users()->exists() ||
+            $unit->atkKeluar()->exists() ||
+            $unit->beritaAcara()->exists()
+        ) {
+
+            return back()->with(
+                'error',
+                'Unit tidak dapat dihapus karena masih memiliki relasi data.'
+            );
+        }
+
+        DB::transaction(function () use ($unit) {
+            $unit->delete();
+        });
+
+        return redirect('/master-unit')->with('success', 'Data Unit berhasil dihapus.');
     }
 }

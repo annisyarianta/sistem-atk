@@ -74,6 +74,7 @@
                     <label for="gambar_atk" class="col-sm-3 col-form-label">Ganti Gambar (opsional)</label>
                     <div class="col-sm-9">
                         <input type="file" class="form-control" id="gambar_atk" name="gambar_atk" />
+                        <small>Upload gambar jika ada (.jpg, *.jpeg, *.png), maks. 2 MB</small>
                         <div class="invalid-feedback">
                             Please enter a valid file.
                         </div>

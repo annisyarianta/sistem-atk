@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MasterAtkController;
+use App\Http\Controllers\MasterUnitController;
 
 
 Route::get('/', function () {
@@ -24,6 +25,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/master-atk/update/{id}', [MasterAtkController::class, 'update']);
     Route::get('/master-atk/check-used/{id}', [MasterATKController::class, 'checkUsed']);
     Route::delete('/master-atk/delete/{id}', [MasterAtkController::class, 'destroy']);
+
+    Route::get('/master-unit', [MasterUnitController::class, 'index']);
+    Route::post('/master-unit/store', [MasterUnitController::class, 'store']);
+    Route::get('/master-unit/edit/{id}', [MasterUnitController::class, 'edit']);
+    Route::post('/master-unit/update/{id}', [MasterUnitController::class, 'update']);
+    Route::delete('/master-unit/delete/{id}', [MasterUnitController::class, 'destroy']);
 });
 require __DIR__.'/auth.php';
 

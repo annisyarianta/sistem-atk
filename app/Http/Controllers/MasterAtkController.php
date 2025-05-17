@@ -78,7 +78,7 @@ class MasterAtkController extends Controller
         $atk->satuan = $request->satuan;
         $atk->save();
 
-        return redirect('/master-atk')->with('success', 'Data ATK berhasil diupdate.');
+        return redirect('/master-atk')->with('success', 'Data ATK berhasil diperbarui.');
     }
 
     public function checkUsed($id)
