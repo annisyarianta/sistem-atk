@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MasterAtkController;
 use App\Http\Controllers\MasterUnitController;
+use App\Http\Controllers\AtkMasukController;
 
 
 Route::get('/', function () {
@@ -31,6 +32,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/master-unit/edit/{id}', [MasterUnitController::class, 'edit']);
     Route::post('/master-unit/update/{id}', [MasterUnitController::class, 'update']);
     Route::delete('/master-unit/delete/{id}', [MasterUnitController::class, 'destroy']);
+
+    Route::get('/atk-masuk', [AtkMasukController::class, 'index']);
+    Route::post('/atk-masuk/store', [AtkMasukController::class, 'store']);
+    Route::get('/atk-masuk/edit/{id}', [AtkMasukController::class, 'edit']);
+    Route::post('/atk-masuk/update/{id}', [AtkMasukController::class, 'update']);
+    Route::delete('/atk-masuk/delete/{id}', [AtkMasukController::class, 'destroy']);
 });
 require __DIR__.'/auth.php';
 

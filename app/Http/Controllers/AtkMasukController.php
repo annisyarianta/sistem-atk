@@ -3,63 +3,67 @@
 namespace App\Http\Controllers;
 
 use App\Models\AtkMasuk;
+use App\Models\MasterAtk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class AtkMasukController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $dataMasuk = AtkMasuk::with('masterAtk')->orderByDesc('tanggal_masuk')->paginate(15);
+        $masterAtk = MasterAtk::orderBy('nama_atk')->get();
+
+        return view('atk_masuk.index', compact('dataMasuk', 'masterAtk'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'id_atk'        => 'required|exists:master_atk,id_atk',
+            'jumlah_masuk'  => 'required|integer',
+            'tanggal_masuk' => 'required|date',
+            'harga_satuan'  => 'required|integer',
+        ]);
+
+        $validated['harga_total'] = $validated['jumlah_masuk'] * $validated['harga_satuan'];
+
+        AtkMasuk::create($validated);
+
+        return redirect('/atk-masuk')->with('success', 'Data ATK Masuk berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(AtkMasuk $atkMasuk)
+    public function edit($id)
     {
-        //
+        $atkMasuk   = AtkMasuk::findOrFail($id);
+        $masterAtk  = MasterAtk::orderBy('nama_atk')->get();
+
+        return view('atk_masuk.edit', compact('atkMasuk', 'masterAtk'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(AtkMasuk $atkMasuk)
+    public function update(Request $request, $id)
     {
-        //
+        $validated = $request->validate([
+            'id_atk'        => 'required|exists:master_atk,id_atk',
+            'jumlah_masuk'  => 'required|integer',
+            'tanggal_masuk' => 'required|date',
+            'harga_satuan'  => 'required|integer',
+        ]);
+
+        $validated['harga_total'] = $validated['jumlah_masuk'] * $validated['harga_satuan'];
+
+        $atkMasuk = AtkMasuk::findOrFail($id);
+        $atkMasuk->update($validated);
+
+        return redirect('/atk-masuk')->with('success', 'Data ATK Masuk berhasil diperbarui.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, AtkMasuk $atkMasuk)
+    public function destroy($id)
     {
-        //
-    }
+        $atkMasuk = AtkMasuk::findOrFail($id);
+        $atkMasuk->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(AtkMasuk $atkMasuk)
-    {
-        //
+        return redirect('/atk-masuk')->with('success', 'Data ATK Masuk berhasil dihapus.');
     }
 }

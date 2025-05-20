@@ -117,45 +117,6 @@
     </script>
     <script src="{{ asset('plugins/simplebar/js/simplebar.min.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
-    <script>
-        // Filter function untuk pencarian dropdown
-        function filterFunction() {
-            var input, filter, div, a, i;
-            input = document.getElementById("searchInput");
-            filter = input.value.toUpperCase();
-            div = document.getElementById("dropdownList");
-            a = div.getElementsByTagName("a");
-
-            // Menyaring daftar berdasarkan input
-            for (i = 0; i < a.length; i++) {
-                if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
-                    a[i].style.display = "";
-                } else {
-                    a[i].style.display = "none";
-                }
-            }
-        }
-
-        // Fungsi untuk memilih item dan mengisi input tersembunyi
-        function selectOption(id, name) {
-            document.getElementById("searchInput").value = name;
-            document.getElementById("atk_id").value = id;
-            document.getElementById("dropdownList").style.display =
-                "none"; // Menyembunyikan dropdown setelah pilihan dipilih
-        }
-
-        // Menyembunyikan dropdown ketika klik di luar input atau dropdown
-        window.onclick = function(event) {
-            if (!event.target.matches('#searchInput') && !event.target.matches('.dropdown-content a')) {
-                document.getElementById("dropdownList").style.display = "none";
-            }
-        }
-
-        // Menampilkan dropdown saat input aktif
-        document.getElementById("searchInput").onclick = function() {
-            document.getElementById("dropdownList").style.display = "block";
-        }
-    </script>
     <!--notification js -->
     <script src="{{ asset('plugins/notifications/js/lobibox.min.js') }}"></script>
     <script src="{{ asset('plugins/notifications/js/notifications.min.js') }}"></script>
