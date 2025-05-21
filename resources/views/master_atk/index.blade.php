@@ -214,8 +214,8 @@
                                     } else {
                                         Swal.fire({
                                             icon: 'error',
-                                            title: 'Gagal Dihapus!',
-                                            text: 'Data ATK ini sedang digunakan dan tidak dapat dihapus.'
+                                            title: 'Gagal Menghapus!',
+                                            text: 'Data ATK ini tidak dapat dihapus karena masih digunakan.'
                                         });
                                     }
                                 })

@@ -143,12 +143,6 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             form.submit();
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Terjadi Kesalahan',
-                                text: 'Gagal menghapus data.'
-                            });
                         }
                     });
                 });
@@ -160,6 +154,13 @@
 
             @if (session('error'))
                 round_error_noti("{{ session('error') }}");
+            @endif
+            @if (session('used_error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal Menghapus!',
+                    text: '{{ session('used_error') }}',
+                });
             @endif
         });
     </script>

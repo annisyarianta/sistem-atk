@@ -12,7 +12,7 @@ class AtkMasukController extends Controller
 {
     public function index()
     {
-        $dataMasuk = AtkMasuk::with('masterAtk')->orderByDesc('tanggal_masuk')->paginate(15);
+        $dataMasuk = AtkMasuk::with('masterAtk')->orderByDesc('tanggal_masuk')->paginate(10);
         $masterAtk = MasterAtk::orderBy('nama_atk')->get();
 
         return view('atk_masuk.index', compact('dataMasuk', 'masterAtk'));

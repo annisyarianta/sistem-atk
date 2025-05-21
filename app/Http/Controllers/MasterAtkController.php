@@ -10,7 +10,7 @@ class MasterAtkController extends Controller
 {
     public function index()
     {
-        $data = MasterAtk::all();
+        $data = MasterAtk::orderBy('kode_atk')->paginate(10);
         return view('master_atk.index', compact('data'));
     }
 

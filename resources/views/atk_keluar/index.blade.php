@@ -1,13 +1,17 @@
 @extends('layouts.app')
 
 @section('title')
-    ATK Masuk | ATK Inventory System
+    ATK Keluar | ATK Inventory System
 @endsection
 
 @section('content')
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3 gap-2">
-        <h3 class="mb-0 text-uppercase">ATK Masuk</h3>
+        <h3 class="mb-0 text-uppercase">ATK Keluar</h3>
         <div>
+            <button type="button" class="btn btn-sm btn-grd btn-grd-primary me-1"
+                onclick="window.location.href='cetak-ba.html'">
+                Cetak BA
+            </button>
             <button type="button" class="btn btn-sm btn-grd btn-grd-danger me-1" id="exportPdfBtn">
                 Export PDF
             </button>
@@ -15,16 +19,16 @@
                 Export Excel
             </button>
             <button type="button" class="btn btn-sm btn-grd btn-grd-info" data-bs-toggle="modal"
-                data-bs-target="#ScrollableModal">
+                data-bs-target="#TambahKeluarModal">
                 Tambah Data
             </button>
             <!-- Modal -->
-            <div class="modal fade" id="ScrollableModal" data-bs-backdrop="static">
+            <div class="modal fade" id="TambahKeluarModal" data-bs-backdrop="static">
                 <div class="modal-dialog modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header border-bottom-0 bg-grd-deep-blue py-2">
                             <h5 class="modal-title text-light">
-                                Tambah Data ATK Masuk
+                                Tambah Data ATK Keluar
                             </h5>
                             <a href="javascript:;" class="primaery-menu-close" data-bs-dismiss="modal">
                                 <i class="material-icons-outlined text-light">close</i>
@@ -32,7 +36,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-body">
-                                <form action="{{ url('/atk-masuk/store') }}" method="POST" enctype="multipart/form-data"
+                                <form action="{{ url('/atk-keluar/store') }}" method="POST" enctype="multipart/form-data"
                                     class="row g-3 needs-validation" novalidate>
                                     @csrf
                                     <div class="col-md-12">
@@ -60,27 +64,37 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <label for="tanggal_masuk" class="form-label">Tanggal ATK Masuk</label>
-                                        <input type="date" class="form-control" id="tanggal_masuk" name="tanggal_masuk"
-                                            value="{{ old('tanggal_masuk') }}" required>
+                                        <label for="tanggal_keluar" class="form-label">Tanggal ATK Keluar</label>
+                                        <input type="date" class="form-control" id="tanggal_keluar" name="tanggal_keluar"
+                                            value="{{ old('tanggal_keluar') }}" required>
                                         <div class="invalid-feedback">
                                             Please select date.
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label for="jumlah_masuk" class="form-label">Jumlah ATK Masuk</label>
-                                        <input type="number" class="form-control" id="jumlah_masuk" name="jumlah_masuk"
-                                            placeholder="Masukkan jumlah ATK" value="{{ old('jumlah_masuk') }}" required>
+                                    <div class="col-md-12">
+                                        <label for="jumlah_keluar" class="form-label">Jumlah ATK Keluar</label>
+                                        <input type="number" class="form-control" id="jumlah_keluar" name="jumlah_keluar"
+                                            placeholder="Masukkan jumlah ATK" value="{{ old('jumlah_keluar') }}" required>
                                         <div class="invalid-feedback">
                                             Please enter a valid number.
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label for="harga_satuan" class="form-label">Harga Satuan</label>
-                                        <input type="number" class="form-control" id="harga_satuan" name="harga_satuan"
-                                            placeholder="Masukkan harga" value="{{ old('harga_satuan') }}" required>
+                                    <div class="col-md-12">
+                                        <label for="id_unit" class="form-label">Unit</label>
+                                        <select name="id_unit" id="id_unit"
+                                            class="form-select @error('id_unit') is-invalid @enderror" required>
+                                            <option disabled {{ old('id_unit') ? '' : 'selected' }} value="">
+                                                --- Pilih Unit ---
+                                            </option>
+                                            @foreach ($masterUnit as $unit)
+                                                <option value="{{ $unit->id_unit }}"
+                                                    {{ old('id_unit') == $unit->id_unit ? 'selected' : '' }}>
+                                                    {{ $unit->nama_unit }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                         <div class="invalid-feedback">
-                                            Please enter a valid number.
+                                            Please choose one.
                                         </div>
                                     </div>
                                     <div class="modal-footer border-top-0 pb-0">
@@ -100,12 +114,11 @@
             @if ($errors->any())
                 <script>
                     document.addEventListener("DOMContentLoaded", function() {
-                        var myModal = new bootstrap.Modal(document.getElementById('ScrollableModal'));
+                        var myModal = new bootstrap.Modal(document.getElementById('TambahKeluarModal'));
                         myModal.show();
                     });
                 </script>
             @endif
-
         </div>
     </div>
     <hr />
@@ -125,16 +138,13 @@
                                 Nama ATK
                             </th>
                             <th class="text-center align-middle">
-                                Tanggal ATK Masuk
+                                Tanggal ATK Keluar
                             </th>
                             <th class="text-center align-middle">
-                                Jumlah ATK Masuk
+                                Jumlah ATK Keluar
                             </th>
-                            <th class="text-center align-middle">
-                                Harga Satuan
-                            </th>
-                            <th class="text-center align-middle">
-                                Harga Total
+                            <th class="text-center align-middle" style="width: 170px">
+                                Unit
                             </th>
                             <th class="text-center align-middle" style="width: 80px">
                                 Aksi
@@ -142,27 +152,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($dataMasuk as $index => $atk)
+                        @forelse($dataKeluar as $index => $atk)
                             <tr>
-                                <td class="text-center">{{ $dataMasuk->firstItem() + $index }}</td>
+                                <td class="text-center">{{ $dataKeluar->firstItem() + $index }}</td>
                                 <td class="text-center">{{ $atk->masterAtk->kode_atk ?? '-' }}</td>
                                 <td>{{ $atk->masterAtk->nama_atk ?? '-' }}</td>
-                                <td class="text-center">{{ \Carbon\Carbon::parse($atk->tanggal_masuk)->format('d/m/Y') }}
+                                <td class="text-center">{{ \Carbon\Carbon::parse($atk->tanggal_keluar)->format('d/m/Y') }}
                                 </td>
-                                <td class="text-center">{{ $atk->jumlah_masuk }}</td>
-                                <td class="text-center">{{ number_format($atk->harga_satuan, 0, ',', '.') }}</td>
-                                <td class="text-center">{{ number_format($atk->harga_total, 0, ',', '.') }}</td>
+                                <td class="text-center">{{ $atk->jumlah_keluar }}</td>
+                                <td class="text-center">{{ $atk->unit->nama_unit ?? '-' }}</td>
                                 <td class="text-center">
                                     <div class="d-flex justify-content-center gap-2">
-                                        <a href="{{ url('/atk-masuk/edit/' . $atk->id_masuk) }}"
+                                        <a href="{{ url('/atk-keluar/edit/' . $atk->id_keluar) }}"
                                             class="btn btn-warning raised p-1" title="Edit"
                                             style="
                                             width: 30px;
                                             height: 30px;
                                         ">
                                             <i class="material-icons-outlined" style="font-size: 16px">edit</i></a>
-                                        <form action="{{ url('/atk-masuk/delete/' . $atk->id_masuk) }}" method="POST"
-                                            class="delete-masuk" data-id="{{ $atk->id_masuk }}"
+                                        <form action="{{ url('/atk-keluar/delete/' . $atk->id_keluar) }}" method="POST"
+                                            class="delete-keluar" data-id="{{ $atk->id_keluar }}"
                                             style="display:inline-block;">
                                             @csrf
                                             @method('DELETE')
@@ -177,7 +186,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8" class="text-center">Belum ada data</td>
+                                <td colspan="7" class="text-center">Belum ada data</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -227,10 +236,10 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.delete-masuk').forEach(function(form) {
+            document.querySelectorAll('.delete-keluar').forEach(function(form) {
                 form.querySelector('.delete').addEventListener('click', function(e) {
                     e.preventDefault();
-                    const masukId = form.getAttribute('data-id');
+                    const keluarId = form.getAttribute('data-id');
 
                     Swal.fire({
                         title: 'Apakah Anda yakin?',

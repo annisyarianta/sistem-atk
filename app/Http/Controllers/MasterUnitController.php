@@ -59,14 +59,12 @@ class MasterUnitController extends Controller
         ) {
 
             return back()->with(
-                'error',
-                'Unit tidak dapat dihapus karena masih memiliki relasi data.'
+                'used_error',
+                'Data Unit tidak dapat dihapus karena masih digunakan.'
             );
         }
 
-        DB::transaction(function () use ($unit) {
-            $unit->delete();
-        });
+        $unit->delete();
 
         return redirect('/master-unit')->with('success', 'Data Unit berhasil dihapus.');
     }
