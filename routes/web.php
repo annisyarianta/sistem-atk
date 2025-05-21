@@ -6,6 +6,7 @@ use App\Http\Controllers\MasterAtkController;
 use App\Http\Controllers\MasterUnitController;
 use App\Http\Controllers\AtkMasukController;
 use App\Http\Controllers\AtkKeluarController;
+use App\Http\Controllers\DaftarAtkController;
 
 
 Route::get('/', function () {
@@ -45,6 +46,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/atk-keluar/edit/{id}', [AtkKeluarController::class, 'edit']);
     Route::post('/atk-keluar/update/{id}', [AtkKeluarController::class, 'update']);
     Route::delete('/atk-keluar/delete/{id}', [AtkKeluarController::class, 'destroy']);
+
+    Route::get('/daftar-atk', [DaftarAtkController::class, 'index']);
 });
 require __DIR__.'/auth.php';
 
