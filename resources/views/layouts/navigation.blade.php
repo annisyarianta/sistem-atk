@@ -76,7 +76,7 @@
             </li>
             <li class="menu-label">Kelola ATK</li>
             <li>
-                <a href="atk-masuk.html">
+                <a href="{{ route('atk-masuk.index') }}">
                     <div class="parent-icon">
                         <i class="material-icons-outlined">archive</i>
                     </div>
@@ -84,7 +84,7 @@
                 </a>
             </li>
             <li>
-                <a href="atk-keluar.html">
+                <a href="{{ route('atk-keluar.index') }}">
                     <div class="parent-icon">
                         <i class="material-icons-outlined">unarchive</i>
                     </div>
@@ -92,7 +92,7 @@
                 </a>
             </li>
             <li>
-                <a href="daftar-atk.html">
+                <a href="{{ route('daftar-atk.index') }}">
                     <div class="parent-icon">
                         <i class="material-icons-outlined">assignment</i>
                     </div>
@@ -116,10 +116,10 @@
                 </a>
                 <ul>
                     <li>
-                        <a href="master-atk.html"><i class="material-icons-outlined">arrow_right</i>Data ATK</a>
+                        <a href="{{ route('master-atk.index') }}"><i class="material-icons-outlined">arrow_right</i>Data ATK</a>
                     </li>
                     <li>
-                        <a href="master-unit.html"><i class="material-icons-outlined">arrow_right</i>Data Unit</a>
+                        <a href="{{ route('master-unit.index') }}"><i class="material-icons-outlined">arrow_right</i>Data Unit</a>
                     </li>
                 </ul>
             </li>

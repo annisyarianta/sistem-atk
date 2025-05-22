@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\MasterAtk;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class MasterAtkController extends Controller
 {
@@ -40,22 +41,24 @@ class MasterAtkController extends Controller
             'gambar_atk' => $gambar,
         ]);
 
-        return redirect('/master-atk')->with('success', 'Data ATK berhasil ditambahkan.');
+        return redirect()->route('master-atk.index')->with('success', 'Data ATK berhasil ditambahkan.');
     }
 
-    public function edit($id)
+    public function edit(MasterAtk $atk)
     {
-        $atk = MasterAtk::findOrFail($id);
         return view('master_atk.edit', compact('atk'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, MasterAtk $atk)
     {
-        $atk = MasterAtk::findOrFail($id);
-
         $request->validate([
             'nama_atk' => 'required|string|max:255',
-            'kode_atk' => 'required|string|max:100|unique:master_atk,kode_atk,' . $id . ',id_atk',
+            'kode_atk' => [
+                'required',
+                'string',
+                'max:100',
+                Rule::unique('master_atk', 'kode_atk')->ignore($atk->id_atk, 'id_atk'),
+            ],
             'jenis_atk' => 'required|in:habis_pakai,tidak_habis_pakai',
             'satuan' => 'required|string|max:50',
             'gambar_atk' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
@@ -78,10 +81,10 @@ class MasterAtkController extends Controller
         $atk->satuan = $request->satuan;
         $atk->save();
 
-        return redirect('/master-atk')->with('success', 'Data ATK berhasil diperbarui.');
+        return redirect()->route('master-atk.index')->with('success', 'Data ATK berhasil diperbarui.');
     }
 
-    public function checkUsed($id)
+    public function checkUsed(int $id)
     {
         $digunakanDiMasuk = \App\Models\AtkMasuk::where('id_atk', $id)->exists();
         $digunakanDiKeluar = \App\Models\AtkKeluar::where('id_atk', $id)->exists();
@@ -93,16 +96,14 @@ class MasterAtkController extends Controller
     }
 
 
-    public function destroy($id)
+    public function destroy(MasterAtk $atk)
     {
-        $atk = MasterAtk::findOrFail($id);
-
         if ($atk->gambar_atk && Storage::disk('public')->exists($atk->gambar_atk)) {
             Storage::disk('public')->delete($atk->gambar_atk);
         }
 
         $atk->delete();
 
-        return redirect('/master-atk')->with('success', 'Data ATK berhasil dihapus.');
+        return redirect()->route('master-atk.index')->with('success', 'Data ATK berhasil dihapus.');
     }
 }

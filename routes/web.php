@@ -7,6 +7,7 @@ use App\Http\Controllers\MasterUnitController;
 use App\Http\Controllers\AtkMasukController;
 use App\Http\Controllers\AtkKeluarController;
 use App\Http\Controllers\DaftarAtkController;
+use App\Http\Controllers\UserController;
 
 
 Route::get('/', function () {
@@ -21,34 +22,72 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
-    Route::get('/master-atk', [MasterAtkController::class, 'index']);
-    Route::post('/master-atk/store', [MasterAtkController::class, 'store']);
-    Route::get('/master-atk/edit/{id}', [MasterAtkController::class, 'edit']);
-    Route::post('/master-atk/update/{id}', [MasterAtkController::class, 'update']);
-    Route::get('/master-atk/check-used/{id}', [MasterATKController::class, 'checkUsed']);
-    Route::delete('/master-atk/delete/{id}', [MasterAtkController::class, 'destroy']);
 
-    Route::get('/master-unit', [MasterUnitController::class, 'index']);
-    Route::post('/master-unit/store', [MasterUnitController::class, 'store']);
-    Route::get('/master-unit/edit/{id}', [MasterUnitController::class, 'edit']);
-    Route::post('/master-unit/update/{id}', [MasterUnitController::class, 'update']);
-    Route::delete('/master-unit/delete/{id}', [MasterUnitController::class, 'destroy']);
+    /* ---------- Master ATK ---------- */
+    Route::resource('master-atk', MasterAtkController::class)
+        ->only([
+            'index',
+            'store',
+            'edit',
+            'update',
+            'destroy'
+        ])
+        ->parameters(['master-atk' => 'atk'])
+        ->names('master-atk');
 
-    Route::get('/atk-masuk', [AtkMasukController::class, 'index']);
-    Route::post('/atk-masuk/store', [AtkMasukController::class, 'store']);
-    Route::get('/atk-masuk/edit/{id}', [AtkMasukController::class, 'edit']);
-    Route::post('/atk-masuk/update/{id}', [AtkMasukController::class, 'update']);
-    Route::delete('/atk-masuk/delete/{id}', [AtkMasukController::class, 'destroy']);
+    Route::get('master-atk/check-used/{id}', [MasterATKController::class, 'checkUsed'])
+        ->name('master-atk.check-used');
 
-    Route::get('/atk-keluar', [AtkKeluarController::class, 'index']);
-    Route::post('/atk-keluar/store', [AtkKeluarController::class, 'store']);
-    Route::get('/atk-keluar/edit/{id}', [AtkKeluarController::class, 'edit']);
-    Route::post('/atk-keluar/update/{id}', [AtkKeluarController::class, 'update']);
-    Route::delete('/atk-keluar/delete/{id}', [AtkKeluarController::class, 'destroy']);
+    /* ---------- Master Unit ---------- */
+    Route::resource('master-unit', MasterUnitController::class)
+        ->only([
+            'index',
+            'store',
+            'edit',
+            'update',
+            'destroy'
+        ])
+        ->parameters(['master-unit' => 'id'])
+        ->names('master-unit');
 
-    Route::get('/daftar-atk', [DaftarAtkController::class, 'index']);
+    /* ---------- ATK Masuk ---------- */
+    Route::resource('atk-masuk', AtkMasukController::class)
+        ->only([
+            'index',
+            'store',
+            'edit',
+            'update',
+            'destroy'
+        ])
+        ->parameters(['atk-masuk' => 'id'])
+        ->names('atk-masuk');
+
+    /* ---------- ATK Keluar ---------- */
+    Route::resource('atk-keluar', AtkKeluarController::class)
+        ->only([
+            'index',
+            'store',
+            'edit',
+            'update',
+            'destroy'
+        ])
+        ->parameters(['atk-keluar' => 'id'])
+        ->names('atk-keluar');
+
+    /* ---------- Daftar ATK ---------- */
+    Route::resource('daftar-atk', DaftarAtkController::class)
+        ->only(['index'])
+        ->names('daftar-atk');
+
+    /* ---------- Kelola User ---------- */
+    Route::resource('kelola-user', UserController::class)
+        ->only([
+            'index',
+            'store',
+            'edit',
+            'update',
+            'destroy'
+        ])->parameters(['kelola-user' => 'id'])
+        ->names('kelola-user');
 });
-require __DIR__.'/auth.php';
-
-
+require __DIR__ . '/auth.php';

@@ -12,9 +12,10 @@
     <div class="card">
         <div class="card-body p-4">
             <h5 class="mb-4 text-primary">Form Edit ATK Keluar</h5>
-            <form action="{{ url('/atk-keluar/update/' . $atkKeluar->id_keluar) }}" method="POST"
+            <form action="{{ route('atk-keluar.update', $atkKeluar->id_keluar) }}" method="POST"
                 enctype="multipart/form-data" class="needs-validation" novalidate>
                 @csrf
+                @method('PUT')
                 <div class="row mb-3">
                     <label for="searchInput" class="col-sm-3 col-form-label">Nama ATK</label>
                     <div class="searchable-dropdown col-sm-9">

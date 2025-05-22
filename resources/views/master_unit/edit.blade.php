@@ -12,9 +12,10 @@
     <div class="card">
         <div class="card-body p-4">
             <h5 class="mb-4 text-primary">Form Edit Master Unit</h5>
-            <form action="{{ url('/master-unit/update/' . $unit->id_unit) }}" method="POST" enctype="multipart/form-data"
+            <form action="{{ route('master-unit.update', $unit->id_unit) }}" method="POST" enctype="multipart/form-data"
                 class="needs-validation" novalidate>
                 @csrf
+                @method('PUT')
                 <div class="row mb-3">
                     <label for="nama_unit" class="col-sm-3 col-form-label">Nama Unit</label>
                     <div class="col-sm-9">

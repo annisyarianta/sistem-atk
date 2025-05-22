@@ -9,6 +9,11 @@ class MasterAtk extends Model
     protected $table = 'master_atk';
     protected $primaryKey = 'id_atk';
     public $timestamps = false;
+
+    public function getRouteKeyName()
+    {
+        return 'id_atk';
+    }
     
     protected $fillable = [
         'nama_atk',

@@ -24,7 +24,7 @@ class MasterUnitController extends Controller
 
         MasterUnit::create($validated);
 
-        return redirect('/master-unit')->with('success', 'Data Unit berhasil ditambahkan.');
+        return redirect()->route('master-unit.index')->with('success', 'Data Unit berhasil ditambahkan.');
     }
 
     public function edit($id)
@@ -45,7 +45,7 @@ class MasterUnitController extends Controller
 
         $unit->update($validated);
 
-        return redirect('/master-unit')->with('success', 'Data Unit berhasil diperbarui.');
+        return redirect()->route('master-unit.index')->with('success', 'Data Unit berhasil diperbarui.');
     }
 
     public function destroy($id)
@@ -66,6 +66,6 @@ class MasterUnitController extends Controller
 
         $unit->delete();
 
-        return redirect('/master-unit')->with('success', 'Data Unit berhasil dihapus.');
+        return redirect()->route('master-unit.index')->with('success', 'Data Unit berhasil dihapus.');
     }
 }

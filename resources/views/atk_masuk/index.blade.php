@@ -32,7 +32,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-body">
-                                <form action="{{ url('/atk-masuk/store') }}" method="POST" enctype="multipart/form-data"
+                                <form action="{{ route('atk-masuk.store') }}" method="POST" enctype="multipart/form-data"
                                     class="row g-3 needs-validation" novalidate>
                                     @csrf
                                     <div class="col-md-12">
@@ -154,14 +154,14 @@
                                 <td class="text-center">{{ number_format($atk->harga_total, 0, ',', '.') }}</td>
                                 <td class="text-center">
                                     <div class="d-flex justify-content-center gap-2">
-                                        <a href="{{ url('/atk-masuk/edit/' . $atk->id_masuk) }}"
+                                        <a href="{{ route('atk-masuk.edit', $atk->id_masuk) }}"
                                             class="btn btn-warning raised p-1" title="Edit"
                                             style="
                                             width: 30px;
                                             height: 30px;
                                         ">
                                             <i class="material-icons-outlined" style="font-size: 16px">edit</i></a>
-                                        <form action="{{ url('/atk-masuk/delete/' . $atk->id_masuk) }}" method="POST"
+                                        <form action="{{ route('atk-masuk.destroy', $atk->id_masuk) }}" method="POST"
                                             class="delete-masuk" data-id="{{ $atk->id_masuk }}"
                                             style="display:inline-block;">
                                             @csrf

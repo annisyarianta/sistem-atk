@@ -31,7 +31,7 @@ class AtkKeluarController extends Controller
 
         AtkKeluar::create($validated);
 
-        return redirect('/atk-keluar')->with('success', 'Data ATK Keluar berhasil ditambahkan.');
+        return redirect()->route('atk-keluar.index')->with('success', 'Data ATK Keluar berhasil ditambahkan.');
     }
 
     public function edit($id)
@@ -55,7 +55,7 @@ class AtkKeluarController extends Controller
         $atkKeluar = AtkKeluar::findOrFail($id);
         $atkKeluar->update($validated);
 
-        return redirect('/atk-keluar')->with('success', 'Data ATK Keluar berhasil diperbarui.');
+        return redirect()->route('atk-keluar.index')->with('success', 'Data ATK Keluar berhasil diperbarui.');
     }
 
     public function destroy($id)
@@ -63,6 +63,6 @@ class AtkKeluarController extends Controller
         $atkKeluar = AtkKeluar::findOrFail($id);
         $atkKeluar->delete();
 
-        return redirect('/atk-keluar')->with('success', 'Data ATK keluar berhasil dihapus.');
+        return redirect()->route('atk-keluar.index')->with('success', 'Data ATK keluar berhasil dihapus.');
     }
 }

@@ -31,7 +31,7 @@ class AtkMasukController extends Controller
 
         AtkMasuk::create($validated);
 
-        return redirect('/atk-masuk')->with('success', 'Data ATK Masuk berhasil ditambahkan.');
+        return redirect()->route('atk-masuk.index')->with('success', 'Data ATK Masuk berhasil ditambahkan.');
     }
 
     public function edit($id)
@@ -56,7 +56,7 @@ class AtkMasukController extends Controller
         $atkMasuk = AtkMasuk::findOrFail($id);
         $atkMasuk->update($validated);
 
-        return redirect('/atk-masuk')->with('success', 'Data ATK Masuk berhasil diperbarui.');
+        return redirect()->route('atk-masuk.index')->with('success', 'Data ATK Masuk berhasil diperbarui.');
     }
 
     public function destroy($id)
@@ -64,6 +64,6 @@ class AtkMasukController extends Controller
         $atkMasuk = AtkMasuk::findOrFail($id);
         $atkMasuk->delete();
 
-        return redirect('/atk-masuk')->with('success', 'Data ATK Masuk berhasil dihapus.');
+        return redirect()->route('atk-masuk.index')->with('success', 'Data ATK Masuk berhasil dihapus.');
     }
 }

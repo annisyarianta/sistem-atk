@@ -26,7 +26,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-body">
-                                <form action="{{ url('/master-unit/store') }}" method="POST" enctype="multipart/form-data"
+                                <form action="{{ route('master-unit.store') }}" method="POST" enctype="multipart/form-data"
                                     class="row g-3 needs-validation" novalidate>
                                     @csrf
                                     <div class="col-md-12">
@@ -92,14 +92,14 @@
                                 <td>{{ $unit->nama_unit }}</td>
                                 <td class="text-center">
                                     <div class="d-flex justify-content-center gap-2">
-                                        <a href="{{ url('/master-unit/edit/' . $unit->id_unit) }}"
+                                        <a href="{{ route('master-unit.edit', $unit->id_unit) }}"
                                             class="btn btn-warning raised p-1"
                                             style="
 														width: 30px;
 														height: 30px;
 													">
                                             <i class="material-icons-outlined" style="font-size: 16px">edit</i></a>
-                                        <form action="{{ url('/master-unit/delete/' . $unit->id_unit) }}" method="POST"
+                                        <form action="{{ route('master-unit.destroy', $unit->id_unit) }}" method="POST"
                                             class="form-delete-unit" data-id="{{ $unit->id_unit }}"
                                             style="display:inline-block;">
                                             @csrf
