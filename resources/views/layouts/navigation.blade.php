@@ -142,7 +142,7 @@
             </li>
             <li class="menu-label">Settings</li>
             <li>
-                <a href="kelola-user.html">
+                <a href="{{ route('kelola-user.index') }}">
                     <div class="parent-icon">
                         <i class="material-icons-outlined">groups</i>
                     </div>

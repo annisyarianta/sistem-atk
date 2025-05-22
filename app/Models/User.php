@@ -24,6 +24,8 @@ class User extends Authenticatable
      * @var string
      */
     protected $primaryKey = 'id_user';
+    public $incrementing = true; 
+    protected $keyType = 'int';
 
     /**
      * Aktifkan timestamps.

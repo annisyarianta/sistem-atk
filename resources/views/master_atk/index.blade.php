@@ -244,7 +244,6 @@
     <!-- validasi input -->
     <script>
         const namaAtkInput = document.getElementById('nama_atk');
-        const kodeAtkInput = document.getElementById('kode_atk');
         const submitButton = document.querySelector('button[type="submit"]');
 
         function validateNamaAtk() {
