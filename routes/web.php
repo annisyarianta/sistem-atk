@@ -8,6 +8,7 @@ use App\Http\Controllers\AtkMasukController;
 use App\Http\Controllers\AtkKeluarController;
 use App\Http\Controllers\DaftarAtkController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LogLoginController;
 
 
 Route::get('/', function () {
@@ -89,5 +90,10 @@ Route::middleware('auth')->group(function () {
             'destroy'
         ])->parameters(['kelola-user' => 'id'])
         ->names('kelola-user');
+
+    /* ---------- Log Login ---------- */
+    Route::resource('log-login', LogLoginController::class)
+        ->only(['index'])
+        ->names('log-login');
 });
 require __DIR__ . '/auth.php';

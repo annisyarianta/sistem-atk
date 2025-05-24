@@ -8,58 +8,15 @@ use Illuminate\Http\Request;
 class LogLoginController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Tampilkan daftar log login.
      */
     public function index()
     {
-        //
-    }
+        // Ambil data log beserta relasi user, urut terbaru, paginasi 10/baris
+        $logs = LogLogin::with('user')
+            ->orderByDesc('waktu_login')
+            ->paginate(10);
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(LogLogin $logLogin)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(LogLogin $logLogin)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, LogLogin $logLogin)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(LogLogin $logLogin)
-    {
-        //
+        return view('log_login.index', compact('logs'));
     }
 }

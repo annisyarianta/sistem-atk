@@ -41,8 +41,15 @@
                         </div>
                     </a>
                     <hr class="dropdown-divider" />
-                    <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="javascript:;"><i
-                            class="material-icons-outlined">power_settings_new</i>Logout</a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+
+                    <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="javascript:;"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="material-icons-outlined">power_settings_new</i>
+                        Logout
+                    </a>
                 </div>
             </li>
         </ul>
@@ -116,10 +123,12 @@
                 </a>
                 <ul>
                     <li>
-                        <a href="{{ route('master-atk.index') }}"><i class="material-icons-outlined">arrow_right</i>Data ATK</a>
+                        <a href="{{ route('master-atk.index') }}"><i class="material-icons-outlined">arrow_right</i>Data
+                            ATK</a>
                     </li>
                     <li>
-                        <a href="{{ route('master-unit.index') }}"><i class="material-icons-outlined">arrow_right</i>Data Unit</a>
+                        <a href="{{ route('master-unit.index') }}"><i
+                                class="material-icons-outlined">arrow_right</i>Data Unit</a>
                     </li>
                 </ul>
             </li>
@@ -151,7 +160,7 @@
             </li>
             <li class="menu-label">Logs</li>
             <li>
-                <a href="log-login.html">
+                <a href="{{ route('log-login.index') }}">
                     <div class="parent-icon">
                         <i class="material-icons-outlined">security</i>
                     </div>
@@ -159,7 +168,7 @@
                 </a>
             </li>
             <li>
-                <a href="log-activity.html">
+                <a href="{{ route('log-login.index') }}">
                     <div class="parent-icon">
                         <i class="material-icons-outlined">history</i>
                     </div>
