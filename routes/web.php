@@ -9,6 +9,7 @@ use App\Http\Controllers\AtkKeluarController;
 use App\Http\Controllers\DaftarAtkController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LogLoginController;
+use App\Http\Controllers\LogActivityController;
 
 
 Route::get('/', function () {
@@ -95,5 +96,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('log-login', LogLoginController::class)
         ->only(['index'])
         ->names('log-login');
+
+    /* ---------- Log Activity ---------- */
+    Route::resource('log-activity', LogActivityController::class)
+        ->only(['index'])
+        ->names('log-activity');
 });
 require __DIR__ . '/auth.php';

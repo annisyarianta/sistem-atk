@@ -7,6 +7,8 @@ use App\Models\MasterUnit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use App\Helpers\LogActivityHelper;
+use Illuminate\Support\Facades\Auth;
 
 
 class UserController extends Controller
@@ -15,7 +17,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::with('unit')->paginate(10);
+        $users = User::with('unit')->get();
         $masterUnit = MasterUnit::orderBy('nama_unit')->get();
         $protectedEmails = ['admin.atk@injourneyairports.id'];
 
@@ -34,13 +36,19 @@ class UserController extends Controller
             'email.unique' => 'Email sudah digunakan, harap gunakan email yang lain.',
         ]);
 
-        User::create([
+        $user = User::create([
             'nama' => $request->nama,
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'role' => $request->role,
             'id_unit' => $request->id_unit,
         ]);
+
+        LogActivityHelper::add(
+            'tambah',
+            'Kelola User',
+            'User dengan ID ' . Auth::id() . ' menambah data user dengan ID ' . $user->getKey()
+        );
 
         return redirect()->route('kelola-user.index')->with('success', 'User berhasil ditambahkan.');
     }
@@ -82,6 +90,12 @@ class UserController extends Controller
 
         $user->update($validated);
 
+        LogActivityHelper::add(
+            'edit',
+            'Kelola User',
+            'User dengan ID ' . Auth::id() . ' mengedit data user dengan ID ' . $user->getKey()
+        );
+
         return redirect()->route('kelola-user.index')
             ->with('success', 'User berhasil diperbarui.');
     }
@@ -93,6 +107,12 @@ class UserController extends Controller
             return abort(403, 'User ini tidak boleh diubah atau dihapus.');
         }
         $user->delete();
+
+        LogActivityHelper::add(
+            'hapus',
+            'Kelola User',
+            'User dengan ID ' . Auth::id() . ' menghapus data user dengan ID ' . $user->getKey()
+        );
 
         return redirect()->route('kelola-user.index')
             ->with('success', 'User berhasil dihapus.');

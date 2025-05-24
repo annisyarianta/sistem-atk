@@ -168,7 +168,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('log-login.index') }}">
+                <a href="{{ route('log-activity.index') }}">
                     <div class="parent-icon">
                         <i class="material-icons-outlined">history</i>
                     </div>

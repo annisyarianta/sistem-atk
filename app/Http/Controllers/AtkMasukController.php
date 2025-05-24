@@ -7,12 +7,14 @@ use App\Models\MasterAtk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Helpers\LogActivityHelper;
+use Illuminate\Support\Facades\Auth;
 
 class AtkMasukController extends Controller
 {
     public function index()
     {
-        $dataMasuk = AtkMasuk::with('masterAtk')->orderByDesc('tanggal_masuk')->paginate(10);
+        $dataMasuk = AtkMasuk::with('masterAtk')->orderByDesc('tanggal_masuk')->get();
         $masterAtk = MasterAtk::orderBy('nama_atk')->get();
 
         return view('atk_masuk.index', compact('dataMasuk', 'masterAtk'));
@@ -29,7 +31,13 @@ class AtkMasukController extends Controller
 
         $validated['harga_total'] = $validated['jumlah_masuk'] * $validated['harga_satuan'];
 
-        AtkMasuk::create($validated);
+        $atkMasuk = AtkMasuk::create($validated);
+
+        LogActivityHelper::add(
+            'tambah',
+            'ATK Masuk',
+            'User dengan ID ' . Auth::id() . ' menambah data ATK Masuk dengan ID ' . $atkMasuk->getKey()
+        );
 
         return redirect()->route('atk-masuk.index')->with('success', 'Data ATK Masuk berhasil ditambahkan.');
     }
@@ -56,6 +64,12 @@ class AtkMasukController extends Controller
         $atkMasuk = AtkMasuk::findOrFail($id);
         $atkMasuk->update($validated);
 
+        LogActivityHelper::add(
+            'edit',
+            'ATK Masuk',
+            'User dengan ID ' . Auth::id() . ' mengedit data ATK Masuk dengan ID ' . $atkMasuk->getKey()
+        );
+
         return redirect()->route('atk-masuk.index')->with('success', 'Data ATK Masuk berhasil diperbarui.');
     }
 
@@ -63,6 +77,12 @@ class AtkMasukController extends Controller
     {
         $atkMasuk = AtkMasuk::findOrFail($id);
         $atkMasuk->delete();
+
+        LogActivityHelper::add(
+            'hapus',
+            'ATK Masuk',
+            'User dengan ID ' . Auth::id() . ' menghapus data ATK Masuk dengan ID ' . $atkMasuk->getKey()
+        );
 
         return redirect()->route('atk-masuk.index')->with('success', 'Data ATK Masuk berhasil dihapus.');
     }

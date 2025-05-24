@@ -6,6 +6,8 @@ use App\Models\AtkKeluar;
 use App\Models\MasterAtk;
 use App\Models\MasterUnit;
 use Illuminate\Http\Request;
+use App\Helpers\LogActivityHelper;
+use Illuminate\Support\Facades\Auth;
 
 class AtkKeluarController extends Controller
 {
@@ -13,7 +15,7 @@ class AtkKeluarController extends Controller
     {
         $dataKeluar = AtkKeluar::with(['masterAtk', 'unit'])
             ->latest('tanggal_keluar')
-            ->paginate(10);
+            ->get();
         $masterAtk = MasterAtk::orderBy('nama_atk')->get();
         $masterUnit = MasterUnit::orderBy('nama_unit')->get();
 
@@ -29,7 +31,13 @@ class AtkKeluarController extends Controller
             'id_unit'       => 'required|exists:master_unit,id_unit',
         ]);
 
-        AtkKeluar::create($validated);
+        $atkKeluar = AtkKeluar::create($validated);
+
+        LogActivityHelper::add(
+            'tambah',
+            'ATK Keluar',
+            'User dengan ID ' . Auth::id() . ' menambah data ATK Keluar dengan ID ' . $atkKeluar->getKey()
+        );
 
         return redirect()->route('atk-keluar.index')->with('success', 'Data ATK Keluar berhasil ditambahkan.');
     }
@@ -55,6 +63,12 @@ class AtkKeluarController extends Controller
         $atkKeluar = AtkKeluar::findOrFail($id);
         $atkKeluar->update($validated);
 
+        LogActivityHelper::add(
+            'edit',
+            'ATK Keluar',
+            'User dengan ID ' . Auth::id() . ' mengedit data ATK Keluar dengan ID ' . $atkKeluar->getKey()
+        );
+
         return redirect()->route('atk-keluar.index')->with('success', 'Data ATK Keluar berhasil diperbarui.');
     }
 
@@ -62,6 +76,12 @@ class AtkKeluarController extends Controller
     {
         $atkKeluar = AtkKeluar::findOrFail($id);
         $atkKeluar->delete();
+
+        LogActivityHelper::add(
+            'hapus',
+            'ATK Keluar',
+            'User dengan ID ' . Auth::id() . ' menghapus data ATK Keluar dengan ID ' . $atkKeluar->getKey()
+        );
 
         return redirect()->route('atk-keluar.index')->with('success', 'Data ATK keluar berhasil dihapus.');
     }

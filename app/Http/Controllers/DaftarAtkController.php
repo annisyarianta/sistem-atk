@@ -22,6 +22,7 @@ class DaftarAtkController extends Controller
                 DB::raw('(SELECT COALESCE(SUM(jumlah_masuk), 0) FROM atkmasuk WHERE atkmasuk.id_atk = master_atk.id_atk) as total_masuk'),
                 DB::raw('(SELECT COALESCE(SUM(jumlah_keluar), 0) FROM atkkeluar WHERE atkkeluar.id_atk = master_atk.id_atk) as total_keluar')
             )
+            ->orderBy('master_atk.kode_atk')
             ->get()
             ->map(function ($item) {
                 $item->stok_saat_ini = $item->total_masuk - $item->total_keluar;

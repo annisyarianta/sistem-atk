@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\MasterUnit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\LogActivityHelper;
+use Illuminate\Support\Facades\Auth;
 
 class MasterUnitController extends Controller
 {
@@ -22,7 +24,12 @@ class MasterUnitController extends Controller
             'nama_unit.unique' => 'Nama unit sudah ada, harap gunakan yang lain.',
         ]);
 
-        MasterUnit::create($validated);
+        $unit = MasterUnit::create($validated);
+        LogActivityHelper::add(
+            'tambah',
+            'Master Unit',
+            'User dengan ID ' . Auth::id() . ' menambah data unit dengan ID ' . $unit->getKey()
+        );
 
         return redirect()->route('master-unit.index')->with('success', 'Data Unit berhasil ditambahkan.');
     }
@@ -45,6 +52,12 @@ class MasterUnitController extends Controller
 
         $unit->update($validated);
 
+        LogActivityHelper::add(
+            'edit',
+            'Master Unit',
+            'User dengan ID ' . Auth::id() . ' mengedit data unit dengan ID ' . $unit->getKey()
+        );
+
         return redirect()->route('master-unit.index')->with('success', 'Data Unit berhasil diperbarui.');
     }
 
@@ -65,6 +78,12 @@ class MasterUnitController extends Controller
         }
 
         $unit->delete();
+
+        LogActivityHelper::add(
+            'hapus',
+            'Master Unit',
+            'User dengan ID ' . Auth::id() . ' menghapus data unit dengan ID ' . $unit->getKey()
+        );
 
         return redirect()->route('master-unit.index')->with('success', 'Data Unit berhasil dihapus.');
     }

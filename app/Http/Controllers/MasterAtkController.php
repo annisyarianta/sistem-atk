@@ -6,12 +6,15 @@ use Illuminate\Http\Request;
 use App\Models\MasterAtk;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use App\Helpers\LogActivityHelper;
+use Illuminate\Support\Facades\Auth;
+
 
 class MasterAtkController extends Controller
 {
     public function index()
     {
-        $data = MasterAtk::orderBy('kode_atk')->paginate(10);
+        $data = MasterAtk::orderBy('kode_atk')->get();
         return view('master_atk.index', compact('data'));
     }
 
@@ -33,13 +36,20 @@ class MasterAtkController extends Controller
             $gambar = $path;
         }
 
-        MasterAtk::create([
+        $atk = MasterAtk::create([
             'nama_atk' => $request->nama_atk,
             'kode_atk' => $request->kode_atk,
             'jenis_atk' => $request->jenis_atk,
             'satuan' => $request->satuan,
             'gambar_atk' => $gambar,
         ]);
+
+        $atkId = $atk->getKey();
+        LogActivityHelper::add(
+            'tambah',
+            'Master ATK',
+            'User dengan ID ' . Auth::id() . ' menambah data ATK dengan ID ' . $atkId
+        );
 
         return redirect()->route('master-atk.index')->with('success', 'Data ATK berhasil ditambahkan.');
     }
@@ -81,6 +91,12 @@ class MasterAtkController extends Controller
         $atk->satuan = $request->satuan;
         $atk->save();
 
+        LogActivityHelper::add(
+            'edit',
+            'Master ATK',
+            'User dengan ID ' . Auth::id() . ' mengedit data ATK dengan ID ' . $atk->getKey()
+        );
+
         return redirect()->route('master-atk.index')->with('success', 'Data ATK berhasil diperbarui.');
     }
 
@@ -103,6 +119,12 @@ class MasterAtkController extends Controller
         }
 
         $atk->delete();
+
+        LogActivityHelper::add(
+            'hapus',
+            'Master ATK',
+            'User dengan ID ' . Auth::id() . ' menghapus data ATK dengan ID ' . $atk->getKey()
+        );
 
         return redirect()->route('master-atk.index')->with('success', 'Data ATK berhasil dihapus.');
     }
