@@ -10,6 +10,8 @@ class LogActivityHelper
 {
     public static function add($aksi, $jenisData, $keterangan)
     {
+        LogActivity::where('waktu_aktivitas', '<', Carbon::now()->subDays(30))->delete();
+
         LogActivity::create([
             'id_user' => Auth::id(),
             'waktu_aktivitas' => Carbon::now(),
