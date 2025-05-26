@@ -147,7 +147,7 @@
                     <tbody>
                         @forelse($users as $index => $user)
                             <tr>
-                                <td class="text-center">{{ $users->firstItem() + $index }}</td>
+                                <td class="text-center">{{ $index + 1 }}</td>
                                 <td>{{ $user->nama }}</td>
                                 <td class="text-center">{{ $user->email }}</td>
                                 <td class="text-center">

@@ -144,7 +144,7 @@
                     <tbody>
                         @forelse($dataMasuk as $index => $atk)
                             <tr>
-                                <td class="text-center">{{ $dataMasuk->firstItem() + $index }}</td>
+                                <td class="text-center">{{ $index + 1 }}</td>
                                 <td class="text-center">{{ $atk->masterAtk->kode_atk ?? '-' }}</td>
                                 <td>{{ $atk->masterAtk->nama_atk ?? '-' }}</td>
                                 <td class="text-center">{{ \Carbon\Carbon::parse($atk->tanggal_masuk)->format('d/m/Y') }}

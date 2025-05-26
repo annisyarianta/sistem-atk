@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\MasterUnit;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -19,7 +20,8 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        $units = MasterUnit::all();
+        return view('auth.register', compact('units'));
     }
 
     /**
@@ -30,21 +32,25 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'nama' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6',
+            'id_unit' => 'required|exists:master_unit,id_unit',
+        ], [
+            'email.unique' => 'Email sudah digunakan, harap gunakan email yang lain.',
         ]);
 
         $user = User::create([
-            'name' => $request->name,
+            'nama' => $request->nama,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => 'staff',
+            'id_unit' => $request->id_unit,
         ]);
 
         event(new Registered($user));
 
-        Auth::login($user);
+        return redirect()->route('login')->with('status', 'Registrasi berhasil! Silakan login.');
 
-        return redirect(route('dashboard', absolute: false));
     }
 }
