@@ -78,7 +78,7 @@
                         </p>
                         <h4 class="fw-bold text-center">LOGIN</h4>
                         @if (session('status'))
-                            <div class="mb-4 text-sm text-green-600">
+                            <div class="alert alert-success">
                                 {{ session('status') }}
                             </div>
                         @endif
@@ -130,7 +130,7 @@
                                     <div class="text-start">
                                         <p class="mb-0">
                                             Belum punya akun sebagai staff?
-                                            <a href="register-staff.html">Register Staff</a>
+                                            <a href="{{ route('register') }}">Register Staff</a>
                                         </p>
                                     </div>
                                 </div>
