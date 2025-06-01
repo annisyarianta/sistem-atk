@@ -73,108 +73,128 @@
     <div class="sidebar-nav">
         <!--navigation-->
         <ul class="metismenu" id="sidenav">
-            <li>
-                <a href="dashboard.html">
-                    <div class="parent-icon">
-                        <i class="material-icons-outlined">dashboard</i>
-                    </div>
-                    <div class="menu-title">Dashboard</div>
-                </a>
-            </li>
-            <li class="menu-label">Kelola ATK</li>
-            <li>
-                <a href="{{ route('atk-masuk.index') }}">
-                    <div class="parent-icon">
-                        <i class="material-icons-outlined">archive</i>
-                    </div>
-                    <div class="menu-title">ATK Masuk</div>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('atk-keluar.index') }}">
-                    <div class="parent-icon">
-                        <i class="material-icons-outlined">unarchive</i>
-                    </div>
-                    <div class="menu-title">ATK Keluar</div>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('daftar-atk.index') }}">
-                    <div class="parent-icon">
-                        <i class="material-icons-outlined">assignment</i>
-                    </div>
-                    <div class="menu-title">Daftar ATK</div>
-                </a>
-            </li>
-            <li>
-                <a href="validasi-atk.html">
-                    <div class="parent-icon">
-                        <i class="material-icons-outlined">inventory</i>
-                    </div>
-                    <div class="menu-title">Validasi ATK</div>
-                </a>
-            </li>
-            <li>
-                <a class="has-arrow" href="javascript:;">
-                    <div class="parent-icon">
-                        <i class="material-icons-outlined">dataset</i>
-                    </div>
-                    <div class="menu-title">Master Data</div>
-                </a>
-                <ul>
-                    <li>
-                        <a href="{{ route('master-atk.index') }}"><i class="material-icons-outlined">arrow_right</i>Data
-                            ATK</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('master-unit.index') }}"><i
-                                class="material-icons-outlined">arrow_right</i>Data Unit</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="menu-label">Reports</li>
-            <li>
-                <a href="berita-acara.html">
-                    <div class="parent-icon">
-                        <i class="material-icons-outlined">description</i>
-                    </div>
-                    <div class="menu-title">Berita Acara</div>
-                </a>
-            </li>
-            <li>
-                <a href="cetak-laporan.html">
-                    <div class="parent-icon">
-                        <i class="material-icons-outlined">print</i>
-                    </div>
-                    <div class="menu-title">Cetak Laporan</div>
-                </a>
-            </li>
-            <li class="menu-label">Settings</li>
-            <li>
-                <a href="{{ route('kelola-user.index') }}">
-                    <div class="parent-icon">
-                        <i class="material-icons-outlined">groups</i>
-                    </div>
-                    <div class="menu-title">Kelola User</div>
-                </a>
-            </li>
-            <li class="menu-label">Logs</li>
-            <li>
-                <a href="{{ route('log-login.index') }}">
-                    <div class="parent-icon">
-                        <i class="material-icons-outlined">security</i>
-                    </div>
-                    <div class="menu-title">Log Login</div>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('log-activity.index') }}">
-                    <div class="parent-icon">
-                        <i class="material-icons-outlined">history</i>
-                    </div>
-                    <div class="menu-title">Log Activity</div>
-                </a>
-            </li>
+            @if (Auth::user()->role === 'admin')
+                <li>
+                    <a href="dashboard.html">
+                        <div class="parent-icon">
+                            <i class="material-icons-outlined">dashboard</i>
+                        </div>
+                        <div class="menu-title">Dashboard</div>
+                    </a>
+                </li>
+                <li class="menu-label">Kelola ATK</li>
+                <li>
+                    <a href="{{ route('atk-masuk.index') }}">
+                        <div class="parent-icon">
+                            <i class="material-icons-outlined">archive</i>
+                        </div>
+                        <div class="menu-title">ATK Masuk</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('atk-keluar.index') }}">
+                        <div class="parent-icon">
+                            <i class="material-icons-outlined">unarchive</i>
+                        </div>
+                        <div class="menu-title">ATK Keluar</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('daftar-atk.index') }}">
+                        <div class="parent-icon">
+                            <i class="material-icons-outlined">assignment</i>
+                        </div>
+                        <div class="menu-title">Daftar ATK</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="validasi-atk.html">
+                        <div class="parent-icon">
+                            <i class="material-icons-outlined">inventory</i>
+                        </div>
+                        <div class="menu-title">Validasi ATK</div>
+                    </a>
+                </li>
+                <li>
+                    <a class="has-arrow" href="javascript:;">
+                        <div class="parent-icon">
+                            <i class="material-icons-outlined">dataset</i>
+                        </div>
+                        <div class="menu-title">Master Data</div>
+                    </a>
+                    <ul>
+                        <li>
+                            <a href="{{ route('master-atk.index') }}"><i
+                                    class="material-icons-outlined">arrow_right</i>Data
+                                ATK</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('master-unit.index') }}"><i
+                                    class="material-icons-outlined">arrow_right</i>Data Unit</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-label">Reports</li>
+                <li>
+                    <a href="berita-acara.html">
+                        <div class="parent-icon">
+                            <i class="material-icons-outlined">description</i>
+                        </div>
+                        <div class="menu-title">Berita Acara</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="cetak-laporan.html">
+                        <div class="parent-icon">
+                            <i class="material-icons-outlined">print</i>
+                        </div>
+                        <div class="menu-title">Cetak Laporan</div>
+                    </a>
+                </li>
+                <li class="menu-label">Settings</li>
+                <li>
+                    <a href="{{ route('kelola-user.index') }}">
+                        <div class="parent-icon">
+                            <i class="material-icons-outlined">groups</i>
+                        </div>
+                        <div class="menu-title">Kelola User</div>
+                    </a>
+                </li>
+                <li class="menu-label">Logs</li>
+                <li>
+                    <a href="{{ route('log-login.index') }}">
+                        <div class="parent-icon">
+                            <i class="material-icons-outlined">security</i>
+                        </div>
+                        <div class="menu-title">Log Login</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('log-activity.index') }}">
+                        <div class="parent-icon">
+                            <i class="material-icons-outlined">history</i>
+                        </div>
+                        <div class="menu-title">Log Activity</div>
+                    </a>
+                </li>
+            @elseif(Auth::user()->role === 'staff')
+                <li>
+                    <a href="{{ route('daftar-atk.index') }}">
+                        <div class="parent-icon">
+                            <i class="material-icons-outlined">assignment</i>
+                        </div>
+                        <div class="menu-title">Daftar ATK</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="parent-icon">
+                            <i class="material-icons-outlined">send</i>
+                        </div>
+                        <div class="menu-title">Request ATK</div>
+                    </a>
+                </li>
+            @endif
         </ul>
         <!--end navigation-->
     </div>

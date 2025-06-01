@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MasterAtkController;
 use App\Http\Controllers\MasterUnitController;
@@ -11,16 +12,17 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\LogLoginController;
 use App\Http\Controllers\LogActivityController;
 
+Route::aliasMiddleware('role', RoleMiddleware::class);
 
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
+    /* ---------- Dashboard ---------- */
+    Route::view('/dashboard', 'dashboard')->name('dashboard');
 
-Route::middleware(['auth', 'verified'])->group(function () {
+    /* ---------- Profile ---------- */
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -102,4 +104,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->only(['index'])
         ->names('log-activity');
 });
+
+Route::middleware(['auth', 'verified', 'role:staff'])->group(function () {
+    /* ---------- Daftar ATK ---------- */
+    Route::resource('daftar-atk', DaftarAtkController::class)
+        ->only(['index'])
+        ->names('daftar-atk');
+});
+
 require __DIR__ . '/auth.php';
