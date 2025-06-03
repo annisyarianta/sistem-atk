@@ -177,7 +177,7 @@
                         <div class="menu-title">Log Activity</div>
                     </a>
                 </li>
-            @elseif(Auth::user()->role === 'staff')
+            @elseif (Auth::user()->role === 'staff')
                 <li>
                     <a href="{{ route('daftar-atk.index') }}">
                         <div class="parent-icon">
@@ -187,11 +187,11 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="{{ route('request-atk.index') }}">
                         <div class="parent-icon">
-                            <i class="material-icons-outlined">send</i>
+                            <i class="material-icons-outlined">pending_actions</i>
                         </div>
-                        <div class="menu-title">Request ATK</div>
+                        <div class="menu-title">Permohonan ATK</div>
                     </a>
                 </li>
             @endif

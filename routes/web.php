@@ -9,6 +9,7 @@ use App\Http\Controllers\AtkMasukController;
 use App\Http\Controllers\AtkKeluarController;
 use App\Http\Controllers\DaftarAtkController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RequestAtkController;
 use App\Http\Controllers\LogLoginController;
 use App\Http\Controllers\LogActivityController;
 
@@ -16,6 +17,13 @@ Route::aliasMiddleware('role', RoleMiddleware::class);
 
 Route::get('/', function () {
     return redirect()->route('login');
+});
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    /* ---------- Daftar ATK ---------- */
+    Route::resource('daftar-atk', DaftarAtkController::class)
+        ->only(['index'])
+        ->names('daftar-atk');
 });
 
 Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
@@ -79,9 +87,9 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
         ->names('atk-keluar');
 
     /* ---------- Daftar ATK ---------- */
-    Route::resource('daftar-atk', DaftarAtkController::class)
-        ->only(['index'])
-        ->names('daftar-atk');
+    // Route::resource('daftar-atk', DaftarAtkController::class)
+    //     ->only(['index'])
+    //     ->names('daftar-atk');
 
     /* ---------- Kelola User ---------- */
     Route::resource('kelola-user', UserController::class)
@@ -107,9 +115,17 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 
 Route::middleware(['auth', 'verified', 'role:staff'])->group(function () {
     /* ---------- Daftar ATK ---------- */
-    Route::resource('daftar-atk', DaftarAtkController::class)
-        ->only(['index'])
-        ->names('daftar-atk');
+    // Route::resource('daftar-atk', DaftarAtkController::class)
+    //     ->only(['index'])
+    //     ->names('daftar-atk');
+
+    /* ---------- Permohonan ATK ---------- */
+    Route::resource('request-atk', RequestAtkController::class)
+        ->only([
+            'index',
+            'store'
+        ])->parameters(['request-atk' => 'id'])
+        ->names('request-atk');
 });
 
 require __DIR__ . '/auth.php';

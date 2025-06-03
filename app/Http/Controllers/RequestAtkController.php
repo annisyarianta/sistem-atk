@@ -2,64 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\RequestAtk;
 use Illuminate\Http\Request;
+use App\Models\RequestAtk;
+use App\Models\MasterAtk;
+use Illuminate\Support\Facades\Auth;
 
 class RequestAtkController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $dataRequest = RequestAtk::with(['masterAtk', 'user'])
+            ->orderBy('tanggal_request', 'desc')
+            ->get();
+        $masterAtk = MasterAtk::orderBy('nama_atk')->get();
+
+        return view('request_atk.index', compact('dataRequest', 'masterAtk'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'id_atk' => 'required|exists:master_atk,id_atk',
+            'tanggal_request' => 'required|date',
+            'jumlah_request' => 'required|integer|min:1',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(RequestAtk $requestAtk)
-    {
-        //
-    }
+        RequestAtk::create([
+            'id_atk' => $request->id_atk,
+            'tanggal_request' => $request->tanggal_request,
+            'jumlah_request' => $request->jumlah_request,
+            'id_user' => Auth::user()->id_user,
+            'status' => 'pending'
+        ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(RequestAtk $requestAtk)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, RequestAtk $requestAtk)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(RequestAtk $requestAtk)
-    {
-        //
+        return redirect()->route('request-atk.index')->with('success', 'Permohonan ATK berhasil ditambahkan.');
     }
 }
