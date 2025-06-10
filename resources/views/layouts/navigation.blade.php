@@ -108,7 +108,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="validasi-atk.html">
+                    <a href="{{ route('validasi-atk.index') }}">
                         <div class="parent-icon">
                             <i class="material-icons-outlined">inventory</i>
                         </div>

@@ -10,8 +10,10 @@ use App\Http\Controllers\AtkKeluarController;
 use App\Http\Controllers\DaftarAtkController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RequestAtkController;
+use App\Http\Controllers\ValidasiAtkController;
 use App\Http\Controllers\LogLoginController;
 use App\Http\Controllers\LogActivityController;
+
 
 Route::aliasMiddleware('role', RoleMiddleware::class);
 
@@ -86,11 +88,6 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
         ->parameters(['atk-keluar' => 'id'])
         ->names('atk-keluar');
 
-    /* ---------- Daftar ATK ---------- */
-    // Route::resource('daftar-atk', DaftarAtkController::class)
-    //     ->only(['index'])
-    //     ->names('daftar-atk');
-
     /* ---------- Kelola User ---------- */
     Route::resource('kelola-user', UserController::class)
         ->only([
@@ -101,6 +98,18 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
             'destroy'
         ])->parameters(['kelola-user' => 'id'])
         ->names('kelola-user');
+
+    /* ---------- Validasi ATK ---------- */
+    Route::resource('validasi-atk', ValidasiAtkController::class)
+        ->only([
+            'index',
+            'store',
+            'edit',
+            'update'
+        ])->parameters(['validasi-atk' => 'id'])
+        ->names('validasi-atk');
+    Route::put('validasi-atk/{id}/approve', [ValidasiAtkController::class, 'approve'])->name('validasi-atk.approve');
+    Route::put('validasi-atk/{id}/reject', [ValidasiAtkController::class, 'reject'])->name('validasi-atk.reject');
 
     /* ---------- Log Login ---------- */
     Route::resource('log-login', LogLoginController::class)
@@ -114,11 +123,6 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
 });
 
 Route::middleware(['auth', 'verified', 'role:staff'])->group(function () {
-    /* ---------- Daftar ATK ---------- */
-    // Route::resource('daftar-atk', DaftarAtkController::class)
-    //     ->only(['index'])
-    //     ->names('daftar-atk');
-
     /* ---------- Permohonan ATK ---------- */
     Route::resource('request-atk', RequestAtkController::class)
         ->only([

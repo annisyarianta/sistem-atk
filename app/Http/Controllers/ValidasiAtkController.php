@@ -2,64 +2,79 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ValidasiAtk;
 use Illuminate\Http\Request;
+use App\Models\ValidasiAtk;
+use App\Models\AtkKeluar;
+use App\Helpers\LogActivityHelper;
+use Illuminate\Support\Facades\Auth;
 
 class ValidasiAtkController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $data = ValidasiAtk::whereHas('requestAtk', function ($query) {
+            $query->where('status', 'pending');
+        })->get();
+
+        return view('validasi_atk.index', compact('data'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'jumlah_request' => 'required|numeric|min:1',
+        ]);
+
+        $validasi = ValidasiAtk::with('requestAtk')->findOrFail($id);
+        $validasi->requestAtk->jumlah_request = $request->jumlah_request;
+        $validasi->requestAtk->save();
+
+        LogActivityHelper::add(
+            'edit',
+            'Validasi ATK',
+            'User dengan ID ' . Auth::id() . ' mengedit data Validasi ATK dengan ID ' . $validasi->getKey()
+        );
+
+        return redirect()->route('validasi-atk.index')->with('success', 'Jumlah Permohonan ATK berhasil diperbarui');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function approve($id)
     {
-        //
+        $validasi = ValidasiAtk::findOrFail($id);
+        $requestAtk = $validasi->requestAtk;
+        $requestAtk->status = 'approved';
+        $requestAtk->save();
+
+        AtkKeluar::create([
+            'id_atk' => $requestAtk->masterAtk->id_atk,
+            'jumlah_keluar' => $requestAtk->jumlah_request,
+            'tanggal_keluar' => now(),
+            'id_unit' => $requestAtk->user->unit->id_unit,
+        ]);
+
+        LogActivityHelper::add(
+            'approve',
+            'Validasi ATK',
+            'User dengan ID ' . Auth::id() . ' menyetujui permohonan ATK dengan ID ' . $requestAtk->getKey()
+        );
+
+        return redirect()->back()->with('success', 'Permintaan disetujui.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(ValidasiAtk $validasiAtk)
+    public function reject($id)
     {
-        //
-    }
+        $validasi = ValidasiAtk::findOrFail($id);
+        $requestAtk = $validasi->requestAtk;
+        $requestAtk->status = 'rejected';
+        $requestAtk->save();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ValidasiAtk $validasiAtk)
-    {
-        //
-    }
+        LogActivityHelper::add(
+            'reject',
+            'Validasi ATK',
+            'User dengan ID ' . Auth::id() . ' menolak permohonan ATK dengan ID ' . $requestAtk->getKey()
+        );
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, ValidasiAtk $validasiAtk)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(ValidasiAtk $validasiAtk)
-    {
-        //
+        return redirect()->route('validasi-atk.index');
     }
 }
