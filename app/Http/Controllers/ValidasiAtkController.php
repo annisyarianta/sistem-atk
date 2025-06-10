@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\ValidasiAtk;
 use App\Models\AtkKeluar;
 use App\Helpers\LogActivityHelper;
+use App\Notifications\RequestAtkStatusNotification;
 use Illuminate\Support\Facades\Auth;
 
 class ValidasiAtkController extends Controller
@@ -46,6 +47,8 @@ class ValidasiAtkController extends Controller
         $requestAtk->status = 'approved';
         $requestAtk->save();
 
+        $requestAtk->user->notify(new RequestAtkStatusNotification($requestAtk, 'approved'));
+
         AtkKeluar::create([
             'id_atk' => $requestAtk->masterAtk->id_atk,
             'jumlah_keluar' => $requestAtk->jumlah_request,
@@ -59,7 +62,7 @@ class ValidasiAtkController extends Controller
             'User dengan ID ' . Auth::id() . ' menyetujui permohonan ATK dengan ID ' . $requestAtk->getKey()
         );
 
-        return redirect()->back()->with('success', 'Permintaan disetujui.');
+        return redirect()->back()->with('success', 'Permohonan ATK disetujui.');
     }
 
     public function reject($id)
@@ -68,6 +71,8 @@ class ValidasiAtkController extends Controller
         $requestAtk = $validasi->requestAtk;
         $requestAtk->status = 'rejected';
         $requestAtk->save();
+
+        $requestAtk->user->notify(new RequestAtkStatusNotification($requestAtk, 'rejected'));
 
         LogActivityHelper::add(
             'reject',
