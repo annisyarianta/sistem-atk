@@ -165,7 +165,7 @@
     </tr>
     </table>
 
-    <div style="border: 2px solid black; padding: 10px; box-sizing: border-box; margin-top: 15px;">
+    <div style="border: 2px solid black; padding: 10px; box-sizing: border-box; margin-top: 25px;">
         <h3 style="text-align: center; margin: 0; font-size: 18px;">
             DOKUMENTASI PENGELUARAN BARANG ALAT TULIS KANTOR<br>
             UNIT {{ strtoupper($beritaAcara->unit->nama_unit) }}

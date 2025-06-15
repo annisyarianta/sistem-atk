@@ -107,6 +107,7 @@ class BeritaAcaraController extends Controller
 
     public function update(Request $request, $id)
     {
+        $beritaAcara = BeritaAcara::findOrFail($id);
         $request->validate([
             'tanggal_ba' => 'required|date',
             'referensi' => 'required|string|max:100',
@@ -114,19 +115,39 @@ class BeritaAcaraController extends Controller
             'penerima' => 'required|string|max:255',
             'jabatan_penerima' => 'required|string|max:255',
             'kode_barcode' => 'required|string|max:100',
-            // 'lampiran' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048'
+            'lampiran.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $beritaAcara = BeritaAcara::findOrFail($id);
-        $beritaAcara->update($request->only([
+        $data = $request->only([
             'tanggal_ba',
             'referensi',
             'diketahui',
             'penerima',
             'jabatan_penerima',
             'kode_barcode',
-            'lampiran'
-        ]));
+        ]);
+
+        $lampiranBaru = [];
+        if ($request->hasFile('lampiran')) {
+            if (is_array($beritaAcara->lampiran)) {
+                foreach ($beritaAcara->lampiran as $lama) {
+                    $path = public_path('uploads/lampiran/' . $lama);
+                    if (file_exists($path)) {
+                        unlink($path);
+                    }
+                }
+            }
+
+            foreach ($request->file('lampiran') as $file) {
+                $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('uploads/lampiran'), $filename);
+                $lampiranBaru[] = $filename;
+            }
+
+            $data['lampiran'] = $lampiranBaru;
+        }
+
+        $beritaAcara->update($data);
 
         return redirect()->route('berita-acara.index')->with('success', 'Data Berita Acara berhasil diperbarui.');
     }
