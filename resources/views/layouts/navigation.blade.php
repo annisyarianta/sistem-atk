@@ -136,7 +136,7 @@
                 </li>
                 <li class="menu-label">Reports</li>
                 <li>
-                    <a href="berita-acara.html">
+                    <a href="{{ route('berita-acara.index') }}">
                         <div class="parent-icon">
                             <i class="material-icons-outlined">description</i>
                         </div>

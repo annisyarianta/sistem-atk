@@ -4,55 +4,132 @@ namespace App\Http\Controllers;
 
 use App\Models\BeritaAcara;
 use Illuminate\Http\Request;
+use App\Models\MasterUnit;
+use App\Models\AtkKeluar;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Str;
 
 class BeritaAcaraController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $dataBA = BeritaAcara::with(['atkKeluar.masterAtk', 'unit'])
+            ->latest('tanggal_ba', 'desc')
+            ->get();
+        // $masterAtk = MasterAtk::orderBy('nama_atk')->get();
+        // $masterUnit = MasterUnit::orderBy('nama_unit')->get();
+
+        return view('berita_acara.index', compact('dataBA'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        // $keluar = AtkKeluar::all();
+        $unit = MasterUnit::whereIn('id_unit', function ($query) {
+            $query->select('id_unit')->from('atkkeluar')->distinct();
+        })->get();
+
+        return view('berita_acara.create', [
+            'masterUnit' => $unit
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'tanggal_ba' => 'required|date',
+            'referensi' => 'required|string|max:100',
+            'id_unit' => 'required|exists:master_unit,id_unit',
+            // 'id_keluar' => 'required|exists:atkkeluar,id_keluar',
+            'tanggal_keluar' => 'required|date',
+            'diketahui' => 'required|string|max:255',
+            'penerima' => 'required|string|max:255',
+            'jabatan_penerima' => 'required|string|max:255',
+            'kode_barcode' => 'required|string|max:100',
+            'lampiran' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048'
+        ]);
+
+        $atkKeluarList = AtkKeluar::where('id_unit', $request->id_unit)
+            ->where('tanggal_keluar', $request->tanggal_keluar)
+            ->whereNull('id_ba')
+            ->get();
+
+
+
+        if ($atkKeluarList->isEmpty()) {
+            return back()->withInput()->with('error', 'Tidak ada data ATK keluar pada periode tersebut.');
+        }
+
+        if ($request->hasFile('lampiran')) {
+            $file = $request->file('lampiran');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/lampiran'), $filename);
+            $data['lampiran'] = $filename;
+        }
+
+        $beritaAcara = BeritaAcara::create([
+            'tanggal_ba' => $request->tanggal_ba,
+            'referensi' => $request->referensi,
+            'id_unit' => $request->id_unit,
+            // 'id_keluar' => null,
+            'tanggal_keluar' => $request->tanggal_keluar,
+            'diketahui' => $request->diketahui,
+            'penerima' => $request->penerima,
+            'jabatan_penerima' => $request->jabatan_penerima,
+            'kode_barcode' => $request->kode_barcode,
+            'lampiran' => $filename
+        ]);
+
+        foreach ($atkKeluarList as $atk) {
+            $atk->id_ba = $beritaAcara->id_ba;
+            $atk->save();
+        }
+
+        $pdf = Pdf::loadView('berita_acara.pdf', ['beritaAcara' => $beritaAcara->load(['unit', 'atkKeluar'])]);
+
+        return redirect()->route('berita-acara.index')->with('success', 'Berita Acara berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(BeritaAcara $beritaAcara)
+    public function downloadPdf($id)
     {
-        //
+        $beritaAcara = BeritaAcara::with(['unit', 'atkKeluar.masterAtk'])->findOrFail($id);
+        $pdf = Pdf::loadView('berita_acara.pdf', compact('beritaAcara'));
+        $filename = 'berita_acara_' . Str::slug($beritaAcara->referensi) . '.pdf';
+        return $pdf->download($filename);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(BeritaAcara $beritaAcara)
+    public function edit($id)
     {
-        //
+        $beritaAcara = BeritaAcara::findOrFail($id);
+        $units = MasterUnit::all();
+        $keluar = AtkKeluar::all();
+        return view('berita_acara.edit', compact('beritaAcara', 'units', 'keluar'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, BeritaAcara $beritaAcara)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'tanggal_ba' => 'required|date',
+            'referensi' => 'required|string|max:100',
+            'diketahui' => 'required|string|max:255',
+            'penerima' => 'required|string|max:255',
+            'jabatan_penerima' => 'required|string|max:255',
+            'kode_barcode' => 'required|string|max:100',
+            // 'lampiran' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048'
+        ]);
+
+        $beritaAcara = BeritaAcara::findOrFail($id);
+        $beritaAcara->update($request->only([
+            'tanggal_ba',
+            'referensi',
+            'diketahui',
+            'penerima',
+            'jabatan_penerima',
+            'kode_barcode',
+            'lampiran'
+        ]));
+    
+        return redirect()->route('berita-acara.index')->with('success', 'Data Berita Acara berhasil diperbarui.');
     }
 
     /**

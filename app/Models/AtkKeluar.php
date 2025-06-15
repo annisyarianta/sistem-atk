@@ -26,4 +26,9 @@ class AtkKeluar extends Model
     {
         return $this->belongsTo(MasterUnit::class, 'id_unit', 'id_unit');
     }
+
+    public function beritaAcara()
+    {
+        return $this->belongsTo(BeritaAcara::class, 'id_ba', 'id_ba');
+    }
 }

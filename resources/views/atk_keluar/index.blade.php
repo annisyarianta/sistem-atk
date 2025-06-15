@@ -9,7 +9,7 @@
         <h3 class="mb-0 text-uppercase">ATK Keluar</h3>
         <div>
             <button type="button" class="btn btn-sm btn-grd btn-grd-primary me-1"
-                onclick="window.location.href='cetak-ba.html'">
+                onclick="window.location.href='{{ route('berita-acara.create') }}'">
                 Cetak BA
             </button>
             <button type="button" class="btn btn-sm btn-grd btn-grd-danger me-1" id="exportPdfBtn">
@@ -68,7 +68,7 @@
                                         <input type="date" class="form-control" id="tanggal_keluar" name="tanggal_keluar"
                                             value="{{ old('tanggal_keluar') }}" required>
                                         <div class="invalid-feedback">
-                                            Please select date.
+                                            Please enter a valid date.
                                         </div>
                                     </div>
                                     <div class="col-md-12">

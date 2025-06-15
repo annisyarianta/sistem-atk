@@ -11,6 +11,7 @@ use App\Http\Controllers\DaftarAtkController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RequestAtkController;
 use App\Http\Controllers\ValidasiAtkController;
+use App\Http\Controllers\BeritaAcaraController;
 use App\Http\Controllers\LogLoginController;
 use App\Http\Controllers\LogActivityController;
 
@@ -21,12 +22,14 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+
 Route::middleware(['auth', 'verified'])->group(function () {
     /* ---------- Daftar ATK ---------- */
     Route::resource('daftar-atk', DaftarAtkController::class)
         ->only(['index'])
         ->names('daftar-atk');
 });
+
 
 Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     /* ---------- Dashboard ---------- */
@@ -111,6 +114,20 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::put('validasi-atk/{id}/approve', [ValidasiAtkController::class, 'approve'])->name('validasi-atk.approve');
     Route::put('validasi-atk/{id}/reject', [ValidasiAtkController::class, 'reject'])->name('validasi-atk.reject');
 
+    /* ---------- Berita Acara ---------- */
+    Route::resource('berita-acara', BeritaAcaraController::class)
+        ->only([
+            'index',
+            'create',
+            'store',
+            'edit',
+            'update',
+            'destroy'
+        ])
+        ->parameters(['berita-acara' => 'id'])
+        ->names('berita-acara');
+    Route::get('/berita-acara/{id}/download', [BeritaAcaraController::class, 'downloadPdf'])->name('berita-acara.download');
+    
     /* ---------- Log Login ---------- */
     Route::resource('log-login', LogLoginController::class)
         ->only(['index'])
@@ -122,6 +139,8 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
         ->names('log-activity');
 });
 
+
+
 Route::middleware(['auth', 'verified', 'role:staff'])->group(function () {
     /* ---------- Permohonan ATK ---------- */
     Route::resource('request-atk', RequestAtkController::class)
@@ -131,5 +150,6 @@ Route::middleware(['auth', 'verified', 'role:staff'])->group(function () {
         ])->parameters(['request-atk' => 'id'])
         ->names('request-atk');
 });
+
 
 require __DIR__ . '/auth.php';
