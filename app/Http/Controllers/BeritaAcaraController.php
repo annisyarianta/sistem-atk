@@ -40,13 +40,12 @@ class BeritaAcaraController extends Controller
             'tanggal_ba' => 'required|date',
             'referensi' => 'required|string|max:100',
             'id_unit' => 'required|exists:master_unit,id_unit',
-            // 'id_keluar' => 'required|exists:atkkeluar,id_keluar',
             'tanggal_keluar' => 'required|date',
             'diketahui' => 'required|string|max:255',
             'penerima' => 'required|string|max:255',
             'jabatan_penerima' => 'required|string|max:255',
             'kode_barcode' => 'required|string|max:100',
-            'lampiran' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048'
+            'lampiran.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $atkKeluarList = AtkKeluar::where('id_unit', $request->id_unit)
@@ -54,30 +53,30 @@ class BeritaAcaraController extends Controller
             ->whereNull('id_ba')
             ->get();
 
-
-
         if ($atkKeluarList->isEmpty()) {
             return back()->withInput()->with('error', 'Tidak ada data ATK keluar pada periode tersebut.');
         }
 
+        $lampiranFilenames = [];
+
         if ($request->hasFile('lampiran')) {
-            $file = $request->file('lampiran');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('uploads/lampiran'), $filename);
-            $data['lampiran'] = $filename;
+            foreach ($request->file('lampiran') as $file) {
+                $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('uploads/lampiran'), $filename);
+                $lampiranFilenames[] = $filename;
+            }
         }
 
         $beritaAcara = BeritaAcara::create([
             'tanggal_ba' => $request->tanggal_ba,
             'referensi' => $request->referensi,
             'id_unit' => $request->id_unit,
-            // 'id_keluar' => null,
             'tanggal_keluar' => $request->tanggal_keluar,
             'diketahui' => $request->diketahui,
             'penerima' => $request->penerima,
             'jabatan_penerima' => $request->jabatan_penerima,
             'kode_barcode' => $request->kode_barcode,
-            'lampiran' => $filename
+            'lampiran' => $lampiranFilenames,
         ]);
 
         foreach ($atkKeluarList as $atk) {
@@ -92,7 +91,7 @@ class BeritaAcaraController extends Controller
 
     public function downloadPdf($id)
     {
-        $beritaAcara = BeritaAcara::with(['unit', 'atkKeluar.masterAtk'])->findOrFail($id);
+        $beritaAcara = BeritaAcara::with(['unit', 'atkKeluar'])->findOrFail($id);
         $pdf = Pdf::loadView('berita_acara.pdf', compact('beritaAcara'));
         $filename = 'berita_acara_' . Str::slug($beritaAcara->referensi) . '.pdf';
         return $pdf->download($filename);
@@ -128,7 +127,7 @@ class BeritaAcaraController extends Controller
             'kode_barcode',
             'lampiran'
         ]));
-    
+
         return redirect()->route('berita-acara.index')->with('success', 'Data Berita Acara berhasil diperbarui.');
     }
 

@@ -120,7 +120,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row mb-3">
+                {{-- <div class="row mb-3">
                     <label for="lampiran" class="col-sm-3 col-form-label">Upload Lampiran BA</label>
                     <div class="col-sm-9">
                         <input type="file" class="form-control" id="lampiran" name="lampiran"
@@ -128,6 +128,19 @@
                         <div class="invalid-feedback">
                             Please enter a valid file.
                         </div>
+                    </div>
+                </div> --}}
+                <div class="row mb-3">
+                    <label for="lampiran" class="col-sm-3 col-form-label">Upload Lampiran BA</label>
+                    <div class="col-sm-9">
+                        <input type="file" class="form-control" id="lampiran" name="lampiran[]"
+                            accept="image/jpeg,image/jpg,image/png" multiple onchange="previewLampiran(this)">
+                        <div class="invalid-feedback">
+                            Silakan unggah file gambar (jpg, jpeg, png).
+                        </div>
+
+                        {{-- Preview gambar --}}
+                        <div id="preview-container" class="mt-3 d-flex flex-wrap gap-2"></div>
                     </div>
                 </div>
                 <div class="row pt-3">
@@ -146,4 +159,31 @@
             </form>
         </div>
     </div>
+
+    @push('scripts')
+        <script>
+            function previewLampiran(input) {
+                const container = document.getElementById('preview-container');
+                container.innerHTML = ''; // Kosongkan preview lama
+
+                if (input.files) {
+                    Array.from(input.files).forEach(file => {
+                        if (file.type.startsWith('image/')) {
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                const img = document.createElement('img');
+                                img.src = e.target.result;
+                                img.style.width = '100px';
+                                img.style.height = 'auto';
+                                img.style.objectFit = 'cover';
+                                img.classList.add('border', 'rounded');
+                                container.appendChild(img);
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    });
+                }
+            }
+        </script>
+    @endpush
 @endsection

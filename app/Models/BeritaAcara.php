@@ -14,13 +14,16 @@ class BeritaAcara extends Model
         'tanggal_ba',
         'referensi',
         'id_unit',
-        // 'id_keluar',
         'diketahui',
         'penerima',
         'jabatan_penerima',
         'kode_barcode',
         'lampiran'
     ];
+
+    protected $casts = [
+        'lampiran' => 'array',
+    ];    
 
     public function unit()
     {
@@ -29,7 +32,6 @@ class BeritaAcara extends Model
 
     public function atkKeluar()
     {
-        // return $this->belongsTo(AtkKeluar::class, 'id_keluar', 'id_keluar');
         return $this->hasMany(AtkKeluar::class, 'id_ba', 'id_ba');
     }
 }

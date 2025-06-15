@@ -138,23 +138,43 @@
     {{-- Halaman baru untuk lampiran --}}
     <div class="page-break"></div>
 
-    <div style="text-align: center; border: 2px solid black;">
-        @if ($beritaAcara->lampiran)
-            <div style="text-align:center; margin-top: 10px;">
-                <img src="{{ public_path('uploads/lampiran/' . $beritaAcara->lampiran) }}" width="400px"
-                    alt="Lampiran Dokumentasi">
-            </div>
-        @endif
+    @if ($beritaAcara->lampiran && is_array($beritaAcara->lampiran))
+        @foreach (array_chunk($beritaAcara->lampiran, 4) as $chunk)
+            <div style="page-break-after: always; border: 2px solid black; padding: 15px; margin-top: 20px;">
 
-        <div
-            style="border: 2px solid black; padding: 10px; display: inline-block; box-sizing: border-box; font-size: 17px; margin: 5px;">
-            <h3 style="text-align: center; margin: 0;">
-                DOKUMENTASI PENGELUARAN BARANG ALAT TULIS KANTOR<br>
-                UNIT {{ $beritaAcara->unit->nama_unit }}
-            </h3>
-        </div>
+                {{-- Tabel Gambar --}}
+                <table style="width: 100%; text-align: center; border: none; border-collapse: collapse;">
+                    <tr>
+                        @foreach ($chunk as $index => $file)
+                            <td style="padding: 10px; border: none;">
+                                <img src="{{ public_path('uploads/lampiran/' . $file) }}"
+                                    style="max-width: 250px; max-height: 180px; border: none;">
+                            </td>
+
+                            {{-- Buat baris baru setiap 2 gambar --}}
+                            @if ($loop->iteration % 2 == 0 && !$loop->last)
+                    </tr>
+                    <tr>
+        @endif
+    @endforeach
+
+    {{-- Tambah kolom kosong jika kurang dari 4 gambar --}}
+    @for ($i = 0; $i < 4 - count($chunk); $i++)
+        <td style="border: none;"></td>
+    @endfor
+    </tr>
+    </table>
+
+    <div style="border: 2px solid black; padding: 10px; box-sizing: border-box; margin-top: 15px;">
+        <h3 style="text-align: center; margin: 0; font-size: 18px;">
+            DOKUMENTASI PENGELUARAN BARANG ALAT TULIS KANTOR<br>
+            UNIT {{ strtoupper($beritaAcara->unit->nama_unit) }}
+        </h3>
     </div>
 
+    </div>
+    @endforeach
+    @endif
 
 </body>
 
