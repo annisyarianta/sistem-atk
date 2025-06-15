@@ -31,7 +31,7 @@
 
 <body>
 
-    @include('layouts.navigation') 
+    @include('layouts.navigation')
 
     <!--start main wrapper-->
     <main class="main-wrapper">
@@ -191,5 +191,14 @@
     </script>
 
 </body>
+<script>
+    @if (session('success'))
+        round_success_noti("{{ session('success') }}");
+    @endif
+
+    @if (session('error'))
+        round_error_noti("{{ session('error') }}");
+    @endif
+</script>
 
 </html>

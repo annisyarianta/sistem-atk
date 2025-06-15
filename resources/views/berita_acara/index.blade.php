@@ -86,76 +86,7 @@
         </div>
     </div>
 
-    <!-- Modal Detail -->
-    {{-- <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable modal-lg">
-            <div class="modal-content">
-                <div class="modal-header border-bottom-0 bg-grd-royal py-2">
-                    <h4 class="modal-title text-light" id="exampleModalScrollableTitle">Detail Berita Acara</h4>
-                    <a href="javascript:;" class="primaery-menu-close" data-bs-dismiss="modal">
-                        <i class="material-icons-outlined text-light">close</i>
-                    </a>
-                </div>
-                <div class="modal-body card-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped mb-0">
-                            <!-- <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>First Name</th>
-                                    </tr>
-                                </thead> -->
-                            <tbody>
-                                <tr>
-                                    <th scope="row">Tanggal Berita Acara</th>
-                                    <td>5/5/2025</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">No. Nota Dinas</th>
-                                    <td>xx/123/API/2025</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Unit</th>
-                                    <td>SAFETY RISK & QUALITY CONTROL</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Periode ATK Keluar</th>
-                                    <td>2008/11/28</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Diketahui oleh</th>
-                                    <td>Rahaditya</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Penerima</th>
-                                    <td>Rianta</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Jabatan penerima</th>
-                                    <td>Assistant Manager of SRQC</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Kode Barcode</th>
-                                    <td>ABCDEFG123</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Nama Barang/Jumlah</th>
-                                    <td>
-                                        <ul class="mb-0">
-                                            <li>Tinta Epson / 2 PCS</li>
-                                            <li>Kertas A4 / 1 RIM</li>
-                                            <li>Tempat Brosur Akrilik A5 Vertikal / 1 PCS</li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
+
     <!-- Modal Detail -->
     <div class="modal fade" id="modalDetail{{ $ba->id_ba }}" tabindex="-1" role="dialog"
         aria-labelledby="modalDetailLabel{{ $ba->id_ba }}" aria-hidden="true">

@@ -8,6 +8,8 @@ use App\Models\MasterUnit;
 use App\Models\AtkKeluar;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Str;
+use App\Helpers\LogActivityHelper;
+use Illuminate\Support\Facades\Auth;
 
 class BeritaAcaraController extends Controller
 {
@@ -86,6 +88,12 @@ class BeritaAcaraController extends Controller
 
         $pdf = Pdf::loadView('berita_acara.pdf', ['beritaAcara' => $beritaAcara->load(['unit', 'atkKeluar'])]);
 
+        LogActivityHelper::add(
+            'tambah',
+            'Berita Acara',
+            'User dengan ID ' . Auth::id() . ' menambah data Berita Acara dengan ID ' . $beritaAcara->getKey()
+        );
+
         return redirect()->route('berita-acara.index')->with('success', 'Berita Acara berhasil ditambahkan.');
     }
 
@@ -148,6 +156,12 @@ class BeritaAcaraController extends Controller
         }
 
         $beritaAcara->update($data);
+
+        LogActivityHelper::add(
+            'edit',
+            'Berita Acara',
+            'User dengan ID ' . Auth::id() . ' mengedit data Berita Acara dengan ID ' . $beritaAcara->getKey()
+        );
 
         return redirect()->route('berita-acara.index')->with('success', 'Data Berita Acara berhasil diperbarui.');
     }
