@@ -75,7 +75,7 @@
                     <label class="col-sm-3 col-form-label"></label>
                     <div class="col-sm-9">
                         <div class="d-md-flex d-grid align-items-center justify-content-lg-end gap-3">
-                            <a href="{{ url('/atk-masuk') }}" class="btn btn-secondary raised px-4">
+                            <a href="{{ route('atk-masuk.index') }}" class="btn btn-secondary raised px-4">
                                 Cancel
                             </a>
                             <button type="submit" class="btn btn-warning raised px-4 text-light">

@@ -16,25 +16,9 @@
                 class="needs-validation" novalidate>
                 @csrf
                 @method('PUT')
-                @if (session('success'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
-                @endif
-
                 @if (session('error'))
                     <div class="alert alert-danger">
                         {{ session('error') }}
-                    </div>
-                @endif
-
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
                     </div>
                 @endif
                 <div class="row mb-3">
@@ -102,15 +86,6 @@
                         </div>
                     </div>
                 </div>
-                {{-- <div class="row mb-3">
-                    <label for="lampiran" class="col-sm-3 col-form-label">Upload Lampiran BA</label>
-                    <div class="col-sm-9">
-                        <input type="file" class="form-control" id="lampiran" name="lampiran" multiple />
-                        <div class="invalid-feedback">
-                            Please enter a valid file.
-                        </div>
-                    </div>
-                </div> --}}
                 <div class="row mb-3">
                     <label for="lampiran" class="col-sm-3 col-form-label">Lampiran BA</label>
                     <div class="col-sm-9">
@@ -151,44 +126,4 @@
             </form>
         </div>
     </div>
-
-    <script>
-        // Filter function untuk pencarian dropdown
-        function filterFunction() {
-            var input, filter, div, a, i;
-            input = document.getElementById("searchInput");
-            filter = input.value.toUpperCase();
-            div = document.getElementById("dropdownList");
-            a = div.getElementsByTagName("a");
-
-            // Menyaring daftar berdasarkan input
-            for (i = 0; i < a.length; i++) {
-                if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
-                    a[i].style.display = "";
-                } else {
-                    a[i].style.display = "none";
-                }
-            }
-        }
-
-        // Fungsi untuk memilih item dan mengisi input tersembunyi
-        function selectOption(id, name) {
-            document.getElementById("searchInput").value = name;
-            document.getElementById("id_atk").value = id;
-            document.getElementById("dropdownList").style.display =
-                "none"; // Menyembunyikan dropdown setelah pilihan dipilih
-        }
-
-        // Menyembunyikan dropdown ketika klik di luar input atau dropdown
-        window.onclick = function(event) {
-            if (!event.target.matches('#searchInput') && !event.target.matches('.dropdown-content a')) {
-                document.getElementById("dropdownList").style.display = "none";
-            }
-        }
-
-        // Menampilkan dropdown saat input aktif
-        document.getElementById("searchInput").onclick = function() {
-            document.getElementById("dropdownList").style.display = "block";
-        }
-    </script>
 @endsection

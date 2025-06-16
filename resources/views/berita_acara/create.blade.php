@@ -20,16 +20,6 @@
                         {{ session('error') }}
                     </div>
                 @endif
-
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
                 <div class="row mb-3">
                     <label for="tanggal_ba" class="col-sm-3 col-form-label">Tanggal Berita Acara</label>
                     <div class="col-sm-9">
@@ -120,16 +110,6 @@
                         </div>
                     </div>
                 </div>
-                {{-- <div class="row mb-3">
-                    <label for="lampiran" class="col-sm-3 col-form-label">Upload Lampiran BA</label>
-                    <div class="col-sm-9">
-                        <input type="file" class="form-control" id="lampiran" name="lampiran"
-                        multiple />
-                        <div class="invalid-feedback">
-                            Please enter a valid file.
-                        </div>
-                    </div>
-                </div> --}}
                 <div class="row mb-3">
                     <label for="lampiran" class="col-sm-3 col-form-label">Upload Lampiran BA</label>
                     <div class="col-sm-9">
@@ -147,9 +127,9 @@
                     <label class="col-sm-3 col-form-label"></label>
                     <div class="col-sm-9">
                         <div class="d-md-flex d-grid align-items-center justify-content-lg-end gap-3">
-                            <button type="button" class="btn btn-secondary raised px-4" onclick="history.back()">
+                            <a class="btn btn-secondary raised px-4" href="{{ route('berita-acara.index') }}">
                                 Cancel
-                            </button>
+                            </a>
                             <button type="submit" class="btn btn-primary raised px-4 text-light">
                                 Submit
                             </button>
@@ -164,7 +144,7 @@
         <script>
             function previewLampiran(input) {
                 const container = document.getElementById('preview-container');
-                container.innerHTML = ''; // Kosongkan preview lama
+                container.innerHTML = '';
 
                 if (input.files) {
                     Array.from(input.files).forEach(file => {
