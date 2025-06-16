@@ -144,7 +144,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="cetak-laporan.html">
+                    <a href="{{ route('cetak-laporan.index') }}">
                         <div class="parent-icon">
                             <i class="material-icons-outlined">print</i>
                         </div>

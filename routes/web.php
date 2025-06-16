@@ -12,6 +12,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RequestAtkController;
 use App\Http\Controllers\ValidasiAtkController;
 use App\Http\Controllers\BeritaAcaraController;
+use App\Http\Controllers\CetakLaporanController;
 use App\Http\Controllers\LogLoginController;
 use App\Http\Controllers\LogActivityController;
 
@@ -127,7 +128,11 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
         ->parameters(['berita-acara' => 'id'])
         ->names('berita-acara');
     Route::get('/berita-acara/{id}/download', [BeritaAcaraController::class, 'downloadPdf'])->name('berita-acara.download');
-    
+
+    /* ---------- Cetak Laporan ---------- */
+    Route::get('/cetak-laporan', [CetakLaporanController::class, 'index'])->name('cetak-laporan.index');
+    Route::post('/cetak-laporan/download', [CetakLaporanController::class, 'download'])->name('cetak-laporan.download');
+
     /* ---------- Log Login ---------- */
     Route::resource('log-login', LogLoginController::class)
         ->only(['index'])
