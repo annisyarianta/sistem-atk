@@ -141,9 +141,9 @@
     @if ($beritaAcara->lampiran && is_array($beritaAcara->lampiran))
         @foreach (array_chunk($beritaAcara->lampiran, 4) as $chunk)
             <div
-                style="page-break-after: always; border: 2px solid black; padding: 15px; margin-top: 20px; box-sizing: border-box;">
+                style="border: 2px solid black; padding: 15px; margin-top: 20px; box-sizing: border-box;">
 
-                <table style="width: 100%; text-align: center; border-collapse: collapse;">
+                <table style="width: 100%; text-align: center; border-collapse: collapse; border: none;">
                     @for ($i = 0; $i < 2; $i++)
                         <tr>
                             @for ($j = 0; $j < 2; $j++)

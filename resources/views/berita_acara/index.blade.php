@@ -49,8 +49,8 @@
                                 </td>
                                 <td class="text-center">{{ $ba->unit->nama_unit ?? '-' }}</td>
                                 <td class="text-center">
-                                    {{ optional($ba->atkKeluar->first())->tanggal_keluar ?? '-' }}
-                                </td>
+                                    {{ optional($ba->atkKeluar->first())?->tanggal_keluar ? \Carbon\Carbon::parse($ba->atkKeluar->first()->tanggal_keluar)->format('d/m/Y') : '-' }}
+                                </td>                                
                                 <td class="text-center">
                                     <div class="d-flex justify-content-center gap-2">
                                         <a href="{{ route('berita-acara.download', $ba->id_ba) }}"
