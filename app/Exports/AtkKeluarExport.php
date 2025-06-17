@@ -26,11 +26,15 @@ class AtkKeluarExport implements FromCollection, WithHeadings
             $query->where('id_unit', $this->id_unit);
         }
 
-        return $query->get()->map(function ($item) {
+        $data = $query->orderBy('tanggal_keluar', 'desc')->get();
+
+        return $data->values()->map(function ($item, $index) {
             return [
+                $index + 1,
+                $item->masterAtk->kode_atk ?? '-',
                 $item->masterAtk->nama_atk ?? '-',
-                $item->jumlah_keluar,
                 $item->tanggal_keluar,
+                $item->jumlah_keluar,
                 $item->unit->nama_unit ?? '-',
             ];
         });
@@ -38,6 +42,6 @@ class AtkKeluarExport implements FromCollection, WithHeadings
 
     public function headings(): array
     {
-        return ['Nama ATK', 'Jumlah Keluar', 'Tanggal Keluar', 'Unit'];
+        return ['No.', 'Kode ATK', 'Nama ATK', 'Tanggal ATK Keluar', 'Jumlah ATK Keluar', 'Unit'];
     }
 }

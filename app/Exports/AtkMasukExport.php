@@ -19,22 +19,40 @@ class AtkMasukExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        return AtkMasuk::with('masterAtk')
+        $data = AtkMasuk::with('masterAtk')
             ->whereBetween('tanggal_masuk', [$this->awal, $this->akhir])
-            ->get()
-            ->map(function ($item) {
-                return [
-                    $item->masterAtk->nama_atk,
-                    $item->jumlah_masuk,
-                    $item->tanggal_masuk,
-                    $item->harga_satuan,
-                    $item->harga_total,
-                ];
-            });
+            ->get();
+
+        $mapped = $data->map(function ($item, $index) {
+            return [
+                $index + 1,
+                $item->masterAtk->kode_atk,
+                $item->masterAtk->nama_atk,
+                $item->tanggal_masuk,
+                $item->jumlah_masuk,
+                $item->harga_satuan,
+                $item->harga_total,
+            ];
+        });
+
+        $grandTotal = $data->sum('harga_total');
+
+        $mapped->push([
+            '',
+            '',
+            '',
+            '',
+            '',
+            'Grand Total',
+            $grandTotal,
+        ]);
+
+        return $mapped;
     }
+
 
     public function headings(): array
     {
-        return ['Nama ATK', 'Jumlah Masuk', 'Tanggal Masuk', 'Harga Satuan', 'Harga Total'];
+        return ['No.', 'Kode ATK', 'Nama ATK', 'Tanggal ATK Masuk', 'Jumlah ATK Masuk', 'Harga Satuan', 'Harga Total'];
     }
 }

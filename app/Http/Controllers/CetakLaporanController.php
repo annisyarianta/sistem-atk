@@ -35,17 +35,16 @@ class CetakLaporanController extends Controller
 
         if ($jenis == 'atkmasuk') {
             $data = AtkMasuk::with('masterAtk')
-                ->whereBetween('tanggal_masuk', [$awal, $akhir])
-                ->get();
+                ->whereBetween('tanggal_masuk', [$awal, $akhir])->orderBy('tanggal_masuk', 'desc')->get();
         } else {
             $query = AtkKeluar::with(['masterAtk', 'unit'])
                 ->whereBetween('tanggal_keluar', [$awal, $akhir]);
 
             if ($request->filled('id_unit')) {
                 $query->where('id_unit', $request->id_unit);
-            }            
+            }
 
-            $data = $query->get();
+            $data = $query->orderBy('tanggal_keluar', 'desc')->get();
         }
 
         if ($format == 'pdf') {
@@ -55,7 +54,7 @@ class CetakLaporanController extends Controller
             $export = $jenis == 'atkmasuk'
                 ? new AtkMasukExport($awal, $akhir)
                 : new AtkKeluarExport($awal, $akhir, $id_unit);
-    
+
             return Excel::download($export, "laporan-{$jenis}-{$awal}-{$akhir}.xlsx");
         }
     }
