@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\RoleMiddleware;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MasterAtkController;
 use App\Http\Controllers\MasterUnitController;
 use App\Http\Controllers\AtkMasukController;
@@ -15,7 +16,6 @@ use App\Http\Controllers\BeritaAcaraController;
 use App\Http\Controllers\CetakLaporanController;
 use App\Http\Controllers\LogLoginController;
 use App\Http\Controllers\LogActivityController;
-
 
 Route::aliasMiddleware('role', RoleMiddleware::class);
 
@@ -34,7 +34,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     /* ---------- Dashboard ---------- */
-    Route::view('/dashboard', 'dashboard')->name('dashboard');
+    // Route::view('/dashboard', 'dashboard')->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
     /* ---------- Profile ---------- */
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

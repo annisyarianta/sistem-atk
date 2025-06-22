@@ -75,7 +75,7 @@
         <ul class="metismenu" id="sidenav">
             @if (Auth::user()->role === 'admin')
                 <li>
-                    <a href="{{ route('dashboard') }}" class="d-flex align-items-center justify-content-between w-100">
+                    <a href="{{ route('dashboard.index') }}" class="d-flex align-items-center justify-content-between w-100">
                         <div class="d-flex align-items-center">
                             <div class="parent-icon">
                                 <i class="material-icons-outlined">dashboard</i>
