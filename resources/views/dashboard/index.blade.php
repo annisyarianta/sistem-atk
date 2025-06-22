@@ -18,7 +18,7 @@
                         <img src="{{ asset('images/inventory.png') }}" height="112" class="position-absolute top-0 pt-2" />
                         <div class="text-end text-uppercase text-light">
                             <p class="mb-0">Total ATK</p>
-                            <h3 class="mb-0 text-light">2712</h3>
+                            <h3 class="mb-0 text-light">{{ $jumlah_atk_keseluruhan }}</h3>
                             <p class="mb-0">Keseluruhan</p>
                         </div>
                     </div>
@@ -34,8 +34,8 @@
                             class="position-absolute bottom-0 start-0 ps-2" />
                         <div class="text-end text-uppercase text-light">
                             <p class="mb-0">ATK Masuk Bulan Ini</p>
-                            <h3 class="mb-0 text-light">121</h3>
-                            <p class="mb-0">September</p>
+                            <h3 class="mb-0 text-light">{{ $jumlah_atk_masuk_perbulan }}</h3>
+                            <p class="mb-0">{{ \Carbon\Carbon::create()->month($selectedMonth)->locale('id')->translatedFormat('F') }}</p>
                         </div>
                     </div>
                 </div>
@@ -49,8 +49,8 @@
                         <img src="{{ asset('images/distribution.png') }}" height="112" class="position-absolute top-0 start-0" />
                         <div class="text-end text-uppercase text-light">
                             <p class="mb-0">ATK Keluar Bulan Ini</p>
-                            <h3 class="mb-0 text-light">346</h3>
-                            <p class="mb-0">September</p>
+                            <h3 class="mb-0 text-light">{{ $jumlah_atk_keluar_perbulan }}</h3>
+                            <p class="mb-0">{{ \Carbon\Carbon::create()->month($selectedMonth)->locale('id')->translatedFormat('F') }}</p>
                         </div>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                             style="left: -8px; top: 19px" />
                         <div class="text-end text-uppercase text-light">
                             <p class="mb-0">Total Permohonan ATK</p>
-                            <h3 class="mb-0 text-light">3</h3>
+                            <h3 class="mb-0 text-light">{{ $pendingRequestCount }}</h3>
                             <p class="mb-0">Pending</p>
                         </div>
                     </div>
