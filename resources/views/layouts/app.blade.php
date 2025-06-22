@@ -63,6 +63,8 @@
     <!--plugins-->
     <script src="{{ asset('plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
     <script src="{{ asset('plugins/metismenu/metisMenu.min.js') }}"></script>
+    <script src="{{ asset('plugins/apexchart/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('plugins/apexchart/apex-custom-chart.js') }}"></script>
     <script src="{{ asset('plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
     <script>

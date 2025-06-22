@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3 gap-2">
-        <h3 class="mb-0 text-uppercase fw-bold">Dashboard</h3>
+        <h3 class="mb-0 text-uppercase fw-bold">Dashboard (dummy)</h3>
     </div>
     <hr />
     <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-4">
@@ -168,14 +168,4 @@
             </div>
         </div>
     </div>
-
-    <script>
-        @if (session('success'))
-            round_success_noti("{{ session('success') }}");
-        @endif
-
-        @if (session('error'))
-            round_error_noti("{{ session('error') }}");
-        @endif
-    </script>
 @endsection

@@ -75,11 +75,14 @@
         <ul class="metismenu" id="sidenav">
             @if (Auth::user()->role === 'admin')
                 <li>
-                    <a href="dashboard.html">
-                        <div class="parent-icon">
-                            <i class="material-icons-outlined">dashboard</i>
+                    <a href="{{ route('dashboard') }}" class="d-flex align-items-center justify-content-between w-100">
+                        <div class="d-flex align-items-center">
+                            <div class="parent-icon">
+                                <i class="material-icons-outlined">dashboard</i>
+                            </div>
+                            <div class="menu-title ms-2">Dashboard</div>
                         </div>
-                        <div class="menu-title">Dashboard</div>
+                        <span class="badge bg-danger">1</span>
                     </a>
                 </li>
                 <li class="menu-label">Kelola ATK</li>
@@ -108,11 +111,17 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('validasi-atk.index') }}">
-                        <div class="parent-icon">
-                            <i class="material-icons-outlined">inventory</i>
+                    <a href="{{ route('validasi-atk.index') }}"
+                        class="d-flex align-items-center justify-content-between w-100">
+                        <div class="d-flex align-items-center">
+                            <div class="parent-icon">
+                                <i class="material-icons-outlined">inventory</i>
+                            </div>
+                            <div class="menu-title ms-2">Validasi ATK</div>
                         </div>
-                        <div class="menu-title">Validasi ATK</div>
+                        @if ($jumlahValidasi > 0)
+                            <span class="badge bg-danger">{{ $jumlahValidasi }}</span>
+                        @endif
                     </a>
                 </li>
                 <li>
