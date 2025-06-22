@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3 gap-2">
-        <h3 class="mb-0 text-uppercase">Berita Acara</h3>
+        <h3 class="mb-0 text-uppercase fw-bold">Berita Acara</h3>
         <div>
             <a href="{{ route('berita-acara.create') }}" class="btn btn-sm btn-grd btn-grd-primary">
                 Cetak Berita Acara

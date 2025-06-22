@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3 gap-2">
-        <h3 class="mb-0 text-uppercase">Edit ATK Masuk</h3>
+        <h3 class="mb-0 text-uppercase fw-bold">Edit ATK Masuk</h3>
     </div>
     <hr />
     <div class="card">
