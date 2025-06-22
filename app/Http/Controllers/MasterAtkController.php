@@ -25,7 +25,8 @@ class MasterAtkController extends Controller
             'kode_atk' => 'required|string|max:100|unique:master_atk,kode_atk',
             'jenis_atk' => 'required|in:habis_pakai,tidak_habis_pakai',
             'satuan' => 'required|string|max:50',
-            'gambar_atk' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'jumlah_minimum'  => 'required|integer',
+            'gambar_atk' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
         ], [
             'kode_atk.unique' => 'Kode ATK sudah ada, harap gunakan yang lain.',
         ]);
@@ -41,6 +42,7 @@ class MasterAtkController extends Controller
             'kode_atk' => $request->kode_atk,
             'jenis_atk' => $request->jenis_atk,
             'satuan' => $request->satuan,
+            'jumlah_minimum' => $request->jumlah_minimum,
             'gambar_atk' => $gambar,
         ]);
 
@@ -71,6 +73,7 @@ class MasterAtkController extends Controller
             ],
             'jenis_atk' => 'required|in:habis_pakai,tidak_habis_pakai',
             'satuan' => 'required|string|max:50',
+            'jumlah_minimum'  => 'required|integer',
             'gambar_atk' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ], [
             'kode_atk.unique' => 'Kode ATK sudah ada, harap gunakan yang lain.',
@@ -89,6 +92,7 @@ class MasterAtkController extends Controller
         $atk->kode_atk = $request->kode_atk;
         $atk->jenis_atk = $request->jenis_atk;
         $atk->satuan = $request->satuan;
+        $atk->jumlah_minimum = $request->jumlah_minimum;        
         $atk->save();
 
         LogActivityHelper::add(

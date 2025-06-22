@@ -47,7 +47,7 @@ class BeritaAcaraController extends Controller
             'penerima' => 'required|string|max:255',
             'jabatan_penerima' => 'required|string|max:255',
             'kode_barcode' => 'required|string|max:100',
-            'lampiran.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'lampiran.*' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
         ]);
 
         $atkKeluarList = AtkKeluar::where('id_unit', $request->id_unit)
@@ -123,7 +123,7 @@ class BeritaAcaraController extends Controller
             'penerima' => 'required|string|max:255',
             'jabatan_penerima' => 'required|string|max:255',
             'kode_barcode' => 'required|string|max:100',
-            'lampiran.*' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'lampiran.*' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
         ]);
 
         $data = $request->only([

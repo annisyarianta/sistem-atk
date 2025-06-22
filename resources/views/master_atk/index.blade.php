@@ -71,9 +71,17 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12">
+                                        <label for="jumlah_minimum" class="form-label">Jumlah Minimum</label>
+                                        <input type="number" name="jumlah_minimum" class="form-control" id="jumlah_minimum"
+                                            placeholder="Masukkan jumlah minimum" value="{{ old('jumlah_minimum') }}" required>
+                                        <div class="invalid-feedback">
+                                            Please enter a valid number.
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
                                         <label for="gambar_atk" class="form-label">Gambar ATK</label>
                                         <input class="form-control" type="file" name="gambar_atk" id="gambar_atk">
-                                        <small>Upload gambar jika ada (.jpg, *.jpeg, *.png), maks. 2 MB</small>
+                                        <small>Upload gambar jika ada (.jpg, *.jpeg, *.png), maks. 5 MB</small>
                                     </div>
                                     <div class="modal-footer border-top-0 pb-0">
                                         <button type="button" class="btn btn-secondary raised" data-bs-dismiss="modal">
@@ -122,6 +130,9 @@
                             <th class="text-center align-middle">
                                 Satuan
                             </th>
+                            <th class="text-center align-middle">
+                                Jumlah Minimum
+                            </th>
                             <th class="text-center align-middle" style="width: 170px">
                                 Gambar
                             </th>
@@ -148,6 +159,7 @@
                                     @endif
                                 </td>
                                 <td class="text-center">{{ $atk->satuan }}</td>
+                                <td class="text-center">{{ $atk->jumlah_minimum }}</td>
                                 <td class="text-center">
                                     <div class="d-flex justify-content-center align-content-center p-1">
                                         <img src="{{ $atk->gambar_atk ? asset('storage/' . $atk->gambar_atk) : asset('images/logo-injourney-airport.png') }}"
@@ -230,14 +242,6 @@
                     });
                 });
             });
-
-            @if (session('success'))
-                round_success_noti("{{ session('success') }}");
-            @endif
-
-            @if (session('error'))
-                round_error_noti("{{ session('error') }}");
-            @endif
         });
     </script>
 

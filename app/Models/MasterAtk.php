@@ -20,6 +20,7 @@ class MasterAtk extends Model
         'kode_atk',
         'jenis_atk',
         'satuan',
+        'jumlah_minimum',
         'gambar_atk',
     ];
 

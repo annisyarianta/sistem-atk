@@ -116,7 +116,7 @@
                         <input type="file" class="form-control" id="lampiran" name="lampiran[]"
                             accept="image/jpeg,image/jpg,image/png" multiple onchange="previewLampiran(this)">
                         <div class="invalid-feedback">
-                            Silakan unggah file gambar (jpg, jpeg, png).
+                            Silakan unggah file gambar (jpg, jpeg, png), maks. 5 MB.
                         </div>
 
                         {{-- Preview gambar --}}

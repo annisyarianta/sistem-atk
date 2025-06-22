@@ -65,6 +65,16 @@
                     </div>
                 </div>
                 <div class="row mb-3">
+                    <label for="jumlah_minimum" class="col-sm-3 col-form-label">Jumlah Minimum</label>
+                    <div class="col-sm-9">
+                        <input type="number" class="form-control" id="jumlah_minimum" name="jumlah_minimum"
+                            value="{{ old('jumlah_minimum', $atk->jumlah_minimum) }}" required />
+                        <div class="invalid-feedback">
+                            Please enter a valid input.
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
                     <label class="col-sm-3 col-form-label">Gambar Saat Ini</label>
                     <div class="col-sm-9">
                         <img src="{{ $atk->gambar_atk ? asset('storage/' . $atk->gambar_atk) : asset('images/logo-injourney-airport.png') }}"
@@ -75,7 +85,7 @@
                     <label for="gambar_atk" class="col-sm-3 col-form-label">Ganti Gambar (opsional)</label>
                     <div class="col-sm-9">
                         <input type="file" class="form-control" id="gambar_atk" name="gambar_atk" />
-                        <small>Upload gambar jika ada (.jpg, *.jpeg, *.png), maks. 2 MB</small>
+                        <small>Upload gambar jika ada (.jpg, *.jpeg, *.png), maks. 5 MB</small>
                         <div class="invalid-feedback">
                             Please enter a valid file.
                         </div>
