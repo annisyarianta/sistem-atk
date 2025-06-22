@@ -45,7 +45,7 @@ class DashboardController  extends Controller
             $jumlah_atk_keluar_perbulan = AtkKeluar::whereMonth('tanggal_keluar', $selectedMonth)
                 ->whereYear('tanggal_keluar', $selectedYear)
                 ->sum('jumlah_keluar');
-            
+
             $pendingRequestCount = RequestAtk::where('status', 'pending')->count();
 
             // Data untuk chart
@@ -98,6 +98,12 @@ class DashboardController  extends Controller
                 $chartData['data'][] = $item->total_keluar;
             }
 
+            $akan_habis = MasterAtk::orderBy('kode_atk')
+                ->get()
+                ->filter(function ($item) {
+                    return $item->stok_saat_ini <= $item->jumlah_minimum;
+                });
+
             return view('dashboard.index', [
                 'atkmasuk' => $atkmasuk,
                 'atkkeluar' => $atkkeluar,
@@ -113,6 +119,7 @@ class DashboardController  extends Controller
                 'tanggalawal' => $tanggalawal,
                 'tanggalakhir' => $tanggalakhir,
                 'pendingRequestCount' => $pendingRequestCount,
+                'akan_habis' => $akan_habis
             ]);
         }
     }

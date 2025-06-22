@@ -82,7 +82,9 @@
                             </div>
                             <div class="menu-title ms-2">Dashboard</div>
                         </div>
-                        <span class="badge bg-danger">1</span>
+                        @if ($jumlahAkanHabis > 0)
+                            <span class="badge bg-danger">{{ $jumlahAkanHabis }}</span>
+                        @endif
                     </a>
                 </li>
                 <li class="menu-label">Kelola ATK</li>

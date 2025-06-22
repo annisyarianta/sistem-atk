@@ -35,7 +35,9 @@
                         <div class="text-end text-uppercase text-light">
                             <p class="mb-0">ATK Masuk Bulan Ini</p>
                             <h3 class="mb-0 text-light">{{ $jumlah_atk_masuk_perbulan }}</h3>
-                            <p class="mb-0">{{ \Carbon\Carbon::create()->month($selectedMonth)->locale('id')->translatedFormat('F') }}</p>
+                            <p class="mb-0">
+                                {{ \Carbon\Carbon::create()->month($selectedMonth)->locale('id')->translatedFormat('F') }}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -46,11 +48,14 @@
                 <div class="card-body" style="position: relative">
                     <div class="d-flex align-items-center justify-content-between gap-3">
                         <div class="wh-48 d-flex align-items-center justify-content-center"></div>
-                        <img src="{{ asset('images/distribution.png') }}" height="112" class="position-absolute top-0 start-0" />
+                        <img src="{{ asset('images/distribution.png') }}" height="112"
+                            class="position-absolute top-0 start-0" />
                         <div class="text-end text-uppercase text-light">
                             <p class="mb-0">ATK Keluar Bulan Ini</p>
                             <h3 class="mb-0 text-light">{{ $jumlah_atk_keluar_perbulan }}</h3>
-                            <p class="mb-0">{{ \Carbon\Carbon::create()->month($selectedMonth)->locale('id')->translatedFormat('F') }}</p>
+                            <p class="mb-0">
+                                {{ \Carbon\Carbon::create()->month($selectedMonth)->locale('id')->translatedFormat('F') }}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -131,36 +136,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>ATK-001</td>
-                                    <td>TINTA EPSON BLACK 001</td>
-                                    <td>
-                                        <span class="badge rounded-pill bg-grd-warning">Akan Habis</span>
-                                    </td>
-                                    <td>
-                                        <h6 class="mb-0">10</h6>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>ATK-001</td>
-                                    <td>TINTA EPSON BLACK 001</td>
-                                    <td>
-                                        <span class="badge rounded-pill bg-grd-warning">Akan Habis</span>
-                                    </td>
-                                    <td>
-                                        <h6 class="mb-0">12</h6>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>ATK-001</td>
-                                    <td>TINTA EPSON BLACK 001</td>
-                                    <td>
-                                        <span class="badge rounded-pill bg-grd-warning">Akan Habis</span>
-                                    </td>
-                                    <td>
-                                        <h6 class="mb-0">8</h6>
-                                    </td>
-                                </tr>
+                                @forelse($akan_habis as $minim)
+                                    <tr>
+                                        <td>{{ $minim->kode_atk }}</td>
+                                        <td>{{ $minim->nama_atk }}</td>
+                                        <td>
+                                            <span class="badge rounded-pill bg-grd-warning">Akan Habis</span>
+                                        </td>
+                                        <td>
+                                            <h6 class="mb-0">{{ $minim->stok_saat_ini }}</h6>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="4" class="text-center">Belum ada data.</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
@@ -168,14 +159,4 @@
             </div>
         </div>
     </div>
-
-    <script>
-        @if (session('success'))
-            round_success_noti("{{ session('success') }}");
-        @endif
-
-        @if (session('error'))
-            round_error_noti("{{ session('error') }}");
-        @endif
-    </script>
 @endsection

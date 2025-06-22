@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+
 
 class MasterAtk extends Model
 {
@@ -14,7 +16,7 @@ class MasterAtk extends Model
     {
         return 'id_atk';
     }
-    
+
     protected $fillable = [
         'nama_atk',
         'kode_atk',
@@ -23,6 +25,19 @@ class MasterAtk extends Model
         'jumlah_minimum',
         'gambar_atk',
     ];
+
+    public function getStokSaatIniAttribute()
+    {
+        $totalMasuk = DB::table('atkmasuk')
+            ->where('id_atk', $this->id_atk)
+            ->sum('jumlah_masuk');
+
+        $totalKeluar = DB::table('atkkeluar')
+            ->where('id_atk', $this->id_atk)
+            ->sum('jumlah_keluar');
+
+        return $totalMasuk - $totalKeluar;
+    }
 
     public function atkMasuk()
     {
