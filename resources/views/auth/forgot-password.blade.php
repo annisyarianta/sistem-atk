@@ -52,7 +52,7 @@
                             Masukkan email Anda untuk mengatur ulang kata
                             sandi </p>
                         @if (session('status'))
-                            <div class="mb-4 text-green-600">
+                            <div class="mb-4 text-success">
                                 {{ session('status') }}
                             </div>
                         @endif
