@@ -88,8 +88,8 @@
                                 <!-- Nama -->
                                 <div class="col-12">
                                     <label for="nama" class="form-label">Nama</label>
-                                    <input type="text" class="form-control" id="nama" name="nama"
-                                        placeholder="Masukkan nama anda" />
+                                    <input type="text" class="form-control @error('nama') is-invalid @enderror"
+                                        id="nama" name="nama" placeholder="Masukkan nama anda" />
                                     @error('nama')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -99,7 +99,8 @@
                                 <!-- Unit -->
                                 <div class="col-12">
                                     <label for="id_unit" class="form-label">Unit</label>
-                                    <select id="id_unit" name="id_unit" class="form-select form-control" required>
+                                    <select id="id_unit" name="id_unit"
+                                        class="form-select form-control @error('id_unit') is-invalid @enderror">
                                         <option disabled selected value="">
                                             --- Pilih unit ---
                                         </option>
@@ -116,8 +117,8 @@
                                 <!-- Email -->
                                 <div class="col-12">
                                     <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email"
-                                        placeholder="Masukkan email anda" />
+                                    <input type="email" class="form-control @error('email') is-invalid @enderror"
+                                        id="email" name="email" placeholder="Masukkan email anda" />
                                     @error('email')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -127,9 +128,11 @@
                                 <!-- Password -->
                                 <div class="col-12">
                                     <label for="password" class="form-label">Password</label>
-                                    <div class="input-group" id="show_hide_password">
-                                        <input type="password" class="form-control border-end-0" id="password"
-                                            name="password" placeholder="Masukkan password anda" />
+                                    <div class="input-group @error('password') is-invalid @enderror"
+                                        id="show_hide_password">
+                                        <input type="password"
+                                            class="form-control border-end-0 @error('password') is-invalid @enderror"
+                                            id="password" name="password" placeholder="Masukkan password anda" />
                                         <a href="javascript:;" class="input-group-text bg-transparent"><i
                                                 class="bi bi-eye-slash-fill"></i></a>
                                     </div>
@@ -209,6 +212,54 @@
             });
         });
     </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.querySelector("form");
+            const password = document.getElementById("password");
+            const confirmPassword = document.getElementById("password_confirmation");
+
+            function showError() {
+                confirmPassword.classList.add("is-invalid");
+
+                const existingFeedback = confirmPassword.parentElement.querySelector(".invalid-feedback");
+                if (!existingFeedback) {
+                    const feedback = document.createElement("div");
+                    feedback.classList.add("invalid-feedback");
+                    feedback.innerText = "Konfirmasi password harus sama dengan password.";
+                    confirmPassword.parentElement.appendChild(feedback);
+                }
+            }
+
+            function removeError() {
+                confirmPassword.classList.remove("is-invalid");
+
+                const feedback = confirmPassword.parentElement.querySelector(".invalid-feedback");
+                if (feedback) feedback.remove();
+            }
+
+            function validatePasswordMatch() {
+                if (confirmPassword.value && password.value !== confirmPassword.value) {
+                    showError();
+                } else {
+                    removeError();
+                }
+            }
+
+            password.addEventListener("input", validatePasswordMatch);
+            confirmPassword.addEventListener("input", validatePasswordMatch);
+
+            form.addEventListener("submit", function(e) {
+                removeError();
+                if (password.value !== confirmPassword.value) {
+                    e.preventDefault();
+                    showError();
+                    confirmPassword.focus();
+                }
+            });
+        });
+    </script>
+
 </body>
 
 </html>

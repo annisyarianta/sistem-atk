@@ -89,7 +89,7 @@
                                     <label for="email" class="form-label">Email</label>
                                     <input type="email" class="form-control @error('email') is-invalid @enderror"
                                         value="{{ old('email') }}" id="email" name="email"
-                                        placeholder="Masukkan email anda" />
+                                        placeholder="Masukkan email anda"/>
                                     <div class="invalid-feedback">
                                         @error('email')
                                             {{ $message }}
@@ -100,11 +100,11 @@
                                 </div>
                                 <div class="col-12">
                                     <label for="password" class="form-label">Password</label>
-                                    <div class="input-group" id="show_hide_password">
+                                    <div class="input-group @error('password') is-invalid @enderror" id="show_hide_password">
                                         <input type="password"
                                             class="form-control border-end-0 @error('password') is-invalid @enderror"
                                             value="{{ old('password') }}" id="password" name="password"
-                                            placeholder="Masukkan password anda" />
+                                            placeholder="Masukkan password anda"/>
                                         <a href="javascript:;" class="input-group-text bg-transparent"><i
                                                 class="bi bi-eye-slash-fill"></i></a>
                                     </div>

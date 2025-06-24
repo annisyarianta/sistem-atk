@@ -34,7 +34,7 @@ class RegisteredUserController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:8',
             'id_unit' => 'required|exists:master_unit,id_unit',
         ], [
             'email.unique' => 'Email sudah digunakan, harap gunakan email yang lain.',
