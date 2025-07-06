@@ -91,7 +91,10 @@ class DashboardController  extends Controller
             $masterAtkList = MasterAtk::whereIn('id_atk', $atkKeluarIds)->get()->keyBy('id_atk');
 
             // Menyusun data untuk chart pie
-            $chartData = [];
+            $chartData = [
+                'labels' => [],
+                'data' => []
+            ];
             foreach ($topKeluar as $item) {
                 $atk = $masterAtkList[$item->id_atk];
                 $chartData['labels'][] = $atk->nama_atk;

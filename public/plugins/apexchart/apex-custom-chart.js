@@ -4,67 +4,68 @@ $(function() {
 
  // chart 1
 
- var options = {
-    series: [
-      {
-      name: "ATK Masuk",
-      data: [50, 45, 80, 70, 110, 80, 60, 45, 20]
-  }, {
-    name: "ATK Keluar",
-    data: [5, 15, 30, 24, 60, 55, 100, 120, 100]
-}],
-    chart: {
-    foreColor: "#9ba7b2",
-    height: 380,
-    type: 'area',
-    zoom: {
+  const monthlyData = window.chartMonthlyData || [];
+  const atkMasuk = monthlyData.map(item => item.atk_masuk);
+  const atkKeluar = monthlyData.map(item => item.atk_keluar);
+  var options = {
+      series: [
+        {
+        name: "ATK Masuk",
+        data: atkMasuk
+    }, {
+      name: "ATK Keluar",
+      data: atkKeluar
+  }],
+      chart: {
+      foreColor: "#9ba7b2",
+      height: 380,
+      type: 'area',
+      zoom: {
+        enabled: false
+      },
+      toolbar: {
+          show: !1,
+      },
+    },
+    dataLabels: {
       enabled: false
     },
-    toolbar: {
-        show: !1,
+    stroke: {
+      width: 4,
+      curve: 'smooth'
     },
-  },
-  dataLabels: {
-    enabled: false
-  },
-  stroke: {
-    width: 4,
-    curve: 'smooth'
-  },
-  fill: {
-    type: 'gradient',
-    gradient: {
-      shade: 'dark',
-      gradientToColors: ['#00c6fb', '#ff0080'],
-      shadeIntensity: 1,
-      type: 'vertical',
-      opacityFrom: 0.8,
-      opacityTo: 0.1,
-      stops: [0, 100, 100, 100]
+    fill: {
+      type: 'gradient',
+      gradient: {
+        shade: 'dark',
+        gradientToColors: ['#00c6fb', '#ff0080'],
+        shadeIntensity: 1,
+        type: 'vertical',
+        opacityFrom: 0.8,
+        opacityTo: 0.1,
+        stops: [0, 100, 100, 100]
+      },
     },
-  },
-  colors: ['#005bea', "#ffd200"],
-  grid: {
-    show: true,
-    borderColor: 'rgba(0, 0, 0, 0.15)',
-    strokeDashArray: 4,
-  },
-  tooltip: {
-    theme: "dark",
-  },
-  xaxis: {
-    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-  },
-  markers: {
-    show: !1,
-    size: 5,
-   },
-  };
+    colors: ['#005bea', "#ffd200"],
+    grid: {
+      show: true,
+      borderColor: 'rgba(0, 0, 0, 0.15)',
+      strokeDashArray: 4,
+    },
+    tooltip: {
+      theme: "dark",
+    },
+    xaxis: {
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    },
+    markers: {
+      show: !1,
+      size: 5,
+    },
+    };
 
-  var chart = new ApexCharts(document.querySelector("#chart1"), options);
-  chart.render();
-
-
+    var chart = new ApexCharts(document.querySelector("#chart1"), options);
+    chart.render();
 
 
     // chart 2
@@ -133,67 +134,66 @@ $(function() {
 
     // chart 3
 
+    const chartLabels = window.chartData.labels;
+    const chartData = window.chartData.data;
+
     var options = {
         series: [{
-			name: "Jumlah Keluar",
-			data: [20, 15, 13, 10, 5]
-		}],
+            name: "Jumlah Keluar",
+            data: chartData
+        }],
         chart: {
-        foreColor: "#9ba7b2",
-        height: 380,
-        type: 'bar',
-        zoom: {
-          enabled: false
+            foreColor: "#9ba7b2",
+            height: 380,
+            type: 'bar',
+            zoom: { enabled: false },
+            toolbar: { show: false }
         },
-        toolbar: {
-            show: !1,
-        }
-      },
-      fill: {
-        type: 'gradient',
-        gradient: {
-            shade: 'dark',
-            gradientToColors: ['#7928ca', '#ffd200', '#00c6fb', '#ee0979', '#2af598'],
-            shadeIntensity: 1,
-            type: 'vertical',
-            stops: [0, 100, 100, 100]
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shade: 'dark',
+                gradientToColors: ['#7928ca', '#ffd200', '#00c6fb', '#ee0979', '#2af598'],
+                shadeIntensity: 1,
+                type: 'vertical',
+                stops: [0, 100, 100, 100]
+            },
         },
-    },
-    colors: ["#ff0080", '#ff6a00', "#005bea", '#ff6a00', '#009efd'],
-    plotOptions: {
-        bar: {
-            horizontal: false,
-            borderRadius: 4,
-            distributed: true,
-            columnWidth: '45%',
-        }
-    },
-      dataLabels: {
-        enabled: false
+        colors: ["#ff0080", '#ff6a00', "#005bea", '#ff6a00', '#009efd'],
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                borderRadius: 4,
+                distributed: true,
+                columnWidth: '45%',
+            }
+        },
+        dataLabels: { enabled: false },
+        stroke: {
+            show: true,
+            width: 4,
+            colors: ["transparent"]
+        },
+        grid: {
+            show: true,
+            borderColor: 'rgba(0, 0, 0, 0.15)',
+            strokeDashArray: 4,
+        },
+        tooltip: { theme: "dark" },
+        xaxis: {
+          categories: chartLabels,
+          labels: {
+              rotate: 0,
+              formatter: function(value) {
+                  return value.length > 12 ? value.substring(0, 12) + '...' : value;
+              }
+          }
       },
-      stroke: {
-        show: !0,
-        width: 4,
-        colors: ["transparent"]
-    },
-      grid: {
-        show: true,
-        borderColor: 'rgba(0, 0, 0, 0.15)',
-        strokeDashArray: 4,
-      },
-      tooltip: {
-        theme: "dark",
-      },
-      xaxis: {
-        categories: ['Pena', 'Tinta Epson', 'Printer', 'Kertas', 'Clip'],
-      },
-      legend: {
-        show: false
-      }      
-      };
+        legend: { show: false }
+    };
 
-      var chart = new ApexCharts(document.querySelector("#chart3"), options);
-      chart.render();
+    var chart = new ApexCharts(document.querySelector("#chart3"), options);
+    chart.render();
 
 
     // chart 4

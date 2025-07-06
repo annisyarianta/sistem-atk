@@ -95,7 +95,8 @@
             <div class="card rounded-4">
                 <div class="card-header py-3">
                     <div class="d-flex align-items-center justify-content-center">
-                        <h5 class="mb-0">ATK Keluar Terbanyak : {{ \Carbon\Carbon::create()->month($selectedMonth)->locale('id')->translatedFormat('F') }}</h5>
+                        <h5 class="mb-0">ATK Keluar Terbanyak :
+                            {{ \Carbon\Carbon::create()->month($selectedMonth)->locale('id')->translatedFormat('F') }}</h5>
                     </div>
                 </div>
                 <div class="card-body">
@@ -141,7 +142,7 @@
                                         <td>{{ $minim->kode_atk }}</td>
                                         <td>{{ $minim->nama_atk }}</td>
                                         <td>
-                                            @if($minim->stok_saat_ini == 0)
+                                            @if ($minim->stok_saat_ini == 0)
                                                 <span class="badge rounded-pill bg-grd-danger">Stok Kosong</span>
                                             @else
                                                 <span class="badge rounded-pill bg-grd-warning">Akan Habis</span>
@@ -163,4 +164,12 @@
             </div>
         </div>
     </div>
+
+    <script>
+        window.chartMonthlyData = @json($monthlyData);
+        window.chartData = {
+            labels: @json($chartData['labels']),
+            data: @json($chartData['data'])
+        };
+    </script>
 @endsection
