@@ -35,9 +35,13 @@
                     <div class="col-sm-9">
                         <input type="text" class="form-control" id="referensi" name="referensi"
                             placeholder="Masukkan no. nota dinas" value="{{ old('referensi') }}" required>
-                        <div class="invalid-feedback">
-                            Please enter a valid input.
-                        </div>
+                            <div class="invalid-feedback">
+                                @error('referensi')
+                                    {{ $message }}
+                                @else
+                                    Please enter a valid input.
+                                @enderror
+                            </div>
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -115,9 +119,7 @@
                     <div class="col-sm-9">
                         <input type="file" class="form-control" id="lampiran" name="lampiran[]"
                             accept="image/jpeg,image/jpg,image/png" multiple onchange="previewLampiran(this)">
-                        <div class="invalid-feedback">
-                            Silakan unggah file gambar (jpg, jpeg, png), maks. 5 MB.
-                        </div>
+                            <small>Upload gambar jika ada (.jpg, *.jpeg, *.png), maks. 5 MB</small>
 
                         {{-- Preview gambar --}}
                         <div id="preview-container" class="mt-3 d-flex flex-wrap gap-2"></div>

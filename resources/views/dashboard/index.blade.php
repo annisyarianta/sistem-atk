@@ -35,8 +35,8 @@
                         <div class="text-end text-uppercase text-light">
                             <p class="mb-0">ATK Masuk Bulan Ini</p>
                             <h3 class="mb-0 text-light">{{ $jumlah_atk_masuk_perbulan }}</h3>
-                            <p class="mb-0">
-                                {{ \Carbon\Carbon::create()->month($selectedMonth)->locale('id')->translatedFormat('F') }}
+                            <p class="mb-0">(
+                                {{ \Carbon\Carbon::create()->month($selectedMonth)->locale('id')->translatedFormat('F') }})
                             </p>
                         </div>
                     </div>
@@ -53,8 +53,8 @@
                         <div class="text-end text-uppercase text-light">
                             <p class="mb-0">ATK Keluar Bulan Ini</p>
                             <h3 class="mb-0 text-light">{{ $jumlah_atk_keluar_perbulan }}</h3>
-                            <p class="mb-0">
-                                {{ \Carbon\Carbon::create()->month($selectedMonth)->locale('id')->translatedFormat('F') }}
+                            <p class="mb-0">(
+                                {{ \Carbon\Carbon::create()->month($selectedMonth)->locale('id')->translatedFormat('F') }})
                             </p>
                         </div>
                     </div>
@@ -95,7 +95,7 @@
             <div class="card rounded-4">
                 <div class="card-header py-3">
                     <div class="d-flex align-items-center justify-content-center">
-                        <h5 class="mb-0">ATK Keluar Terbanyak : Bulan Ini</h5>
+                        <h5 class="mb-0">ATK Keluar Terbanyak : {{ \Carbon\Carbon::create()->month($selectedMonth)->locale('id')->translatedFormat('F') }}</h5>
                     </div>
                 </div>
                 <div class="card-body">
@@ -131,7 +131,7 @@
                                         Status
                                     </th>
                                     <th class="text-uppercase">
-                                        Jumlah Stok
+                                        Sisa Stok
                                     </th>
                                 </tr>
                             </thead>
@@ -141,10 +141,14 @@
                                         <td>{{ $minim->kode_atk }}</td>
                                         <td>{{ $minim->nama_atk }}</td>
                                         <td>
-                                            <span class="badge rounded-pill bg-grd-warning">Akan Habis</span>
+                                            @if($minim->stok_saat_ini == 0)
+                                                <span class="badge rounded-pill bg-grd-danger">Stok Kosong</span>
+                                            @else
+                                                <span class="badge rounded-pill bg-grd-warning">Akan Habis</span>
+                                            @endif
                                         </td>
                                         <td>
-                                            <h6 class="mb-0">{{ $minim->stok_saat_ini }}</h6>
+                                            <h6 class="mb-0">{{ $minim->stok_saat_ini }} {{ $minim->satuan }}</h6>
                                         </td>
                                     </tr>
                                 @empty

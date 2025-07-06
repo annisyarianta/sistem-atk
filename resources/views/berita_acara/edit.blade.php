@@ -6,12 +6,12 @@
 
 @section('content')
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3 gap-2">
-        <h3 class="mb-0 text-uppercase fw-bold">Edit ATK Keluar</h3>
+        <h3 class="mb-0 text-uppercase fw-bold">Edit Berita Acara</h3>
     </div>
     <hr />
     <div class="card">
         <div class="card-body p-4">
-            <h5 class="mb-4 text-primary">Form Edit ATK Keluar</h5>
+            <h5 class="mb-4 text-primary">Form Edit Berita Acara</h5>
             <form action="{{ route('berita-acara.update', $beritaAcara->id_ba) }}" method="POST" enctype="multipart/form-data"
                 class="needs-validation" novalidate>
                 @csrf
@@ -34,12 +34,16 @@
                 <div class="row mb-3">
                     <label for="referensi" class="col-sm-3 col-form-label">Referensi</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="referensi" name="referensi"
+                        <input type="text" class="form-control @error('referensi') is-invalid @enderror" id="referensi" name="referensi"
                             placeholder="Masukkan no. nota dinas" value="{{ old('referensi', $beritaAcara->referensi) }}"
                             required>
-                        <div class="invalid-feedback">
-                            Please enter a valid input.
-                        </div>
+                            <div class="invalid-feedback">
+                                @error('referensi')
+                                    {{ $message }}
+                                @else
+                                    Please enter a valid input.
+                                @enderror
+                            </div>
                     </div>
                 </div>
                 <div class="row mb-3">

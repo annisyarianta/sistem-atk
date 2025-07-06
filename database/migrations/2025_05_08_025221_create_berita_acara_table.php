@@ -20,7 +20,7 @@ class CreateBeritaAcaraTable extends Migration
             $table->string('diketahui', 255);
             $table->string('penerima', 255);
             $table->string('jabatan_penerima', 255);
-            $table->string('kode_barcode', 100);
+            $table->string('kode_barcode', 100)->nullable();
             $table->string('lampiran', 255)->nullable();
 
             $table->foreign('id_unit')->references('id_unit')->on('master_unit')->onDelete('restrict');

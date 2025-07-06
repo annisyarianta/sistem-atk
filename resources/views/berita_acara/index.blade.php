@@ -50,7 +50,7 @@
                                 <td class="text-center">{{ $ba->unit->nama_unit ?? '-' }}</td>
                                 <td class="text-center">
                                     {{ optional($ba->atkKeluar->first())?->tanggal_keluar ? \Carbon\Carbon::parse($ba->atkKeluar->first()->tanggal_keluar)->format('d/m/Y') : '-' }}
-                                </td>                                
+                                </td>
                                 <td class="text-center">
                                     <div class="d-flex justify-content-center gap-2">
                                         <a href="{{ route('berita-acara.download', $ba->id_ba) }}"
@@ -72,6 +72,84 @@
                                             ">
                                             <i class="material-icons-outlined" style="font-size: 16px">visibility</i>
                                         </a>
+                                        <!-- Modal Detail -->
+                                        <div class="modal fade" id="modalDetail{{ $ba->id_ba }}" tabindex="-1"
+                                            role="dialog" aria-labelledby="modalDetailLabel{{ $ba->id_ba }}"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                                                <div class="modal-content text-start">
+                                                    <div class="modal-header border-bottom-0 bg-grd-royal py-2">
+                                                        <h4 class="modal-title text-light"
+                                                            id="modalDetailLabel{{ $ba->id_ba }}">Detail Berita Acara
+                                                        </h4>
+                                                        <a href="javascript:;" class="primaery-menu-close"
+                                                            data-bs-dismiss="modal">
+                                                            <i class="material-icons-outlined text-light">close</i>
+                                                        </a>
+                                                    </div>
+                                                    <div class="modal-body card-body">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-striped mb-0">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <th scope="row">Tanggal Berita Acara</th>
+                                                                        <td>{{ \Carbon\Carbon::parse($ba->tanggal_ba)->format('d/m/Y') }}
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th scope="row">No. Nota Dinas</th>
+                                                                        <td>{{ $ba->referensi }}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th scope="row">Unit</th>
+                                                                        <td>{{ $ba->unit->nama_unit ?? '-' }}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th scope="row">Periode ATK Keluar</th>
+                                                                        <td>
+                                                                            {{ optional($ba->atkKeluar->first())->tanggal_keluar
+                                                                                ? \Carbon\Carbon::parse($ba->atkKeluar->sortBy('tanggal_keluar')->first()->tanggal_keluar)->format('d/m/Y')
+                                                                                : '-' }}
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th scope="row">Diketahui oleh</th>
+                                                                        <td>{{ $ba->diketahui }}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th scope="row">Penerima</th>
+                                                                        <td>{{ $ba->penerima }}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th scope="row">Jabatan penerima</th>
+                                                                        <td>{{ $ba->jabatan_penerima }}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th scope="row">Kode Barcode</th>
+                                                                        <td>{{ $ba->kode_barcode }}</td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <th scope="row">Nama Barang/Jumlah</th>
+                                                                        <td>
+                                                                            <ul class="mb-0">
+                                                                                @foreach ($ba->atkKeluar as $item)
+                                                                                    <li>
+                                                                                        {{ $item->masterAtk->nama_atk ?? '-' }}
+                                                                                        /
+                                                                                        {{ $item->jumlah_keluar }}
+                                                                                        {{ $item->masterAtk->satuan ?? '' }}
+                                                                                    </li>
+                                                                                @endforeach
+                                                                            </ul>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -82,80 +160,6 @@
                         @endforelse
                     </tbody>
                 </table>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Modal Detail -->
-    <div class="modal fade" id="modalDetail{{ $ba->id_ba }}" tabindex="-1" role="dialog"
-        aria-labelledby="modalDetailLabel{{ $ba->id_ba }}" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable modal-lg">
-            <div class="modal-content">
-                <div class="modal-header border-bottom-0 bg-grd-royal py-2">
-                    <h4 class="modal-title text-light" id="modalDetailLabel{{ $ba->id_ba }}">Detail Berita Acara
-                    </h4>
-                    <a href="javascript:;" class="primaery-menu-close" data-bs-dismiss="modal">
-                        <i class="material-icons-outlined text-light">close</i>
-                    </a>
-                </div>
-                <div class="modal-body card-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped mb-0">
-                            <tbody>
-                                <tr>
-                                    <th scope="row">Tanggal Berita Acara</th>
-                                    <td>{{ \Carbon\Carbon::parse($ba->tanggal_ba)->format('d/m/Y') }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">No. Nota Dinas</th>
-                                    <td>{{ $ba->referensi }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Unit</th>
-                                    <td>{{ $ba->unit->nama_unit ?? '-' }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Periode ATK Keluar</th>
-                                    <td>
-                                        {{ optional($ba->atkKeluar->first())->tanggal_keluar
-                                            ? \Carbon\Carbon::parse($ba->atkKeluar->sortBy('tanggal_keluar')->first()->tanggal_keluar)->format('d/m/Y')
-                                            : '-' }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Diketahui oleh</th>
-                                    <td>{{ $ba->diketahui }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Penerima</th>
-                                    <td>{{ $ba->penerima }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Jabatan penerima</th>
-                                    <td>{{ $ba->jabatan_penerima }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Kode Barcode</th>
-                                    <td>{{ $ba->kode_barcode }}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Nama Barang/Jumlah</th>
-                                    <td>
-                                        <ul class="mb-0">
-                                            @foreach ($ba->atkKeluar as $item)
-                                                <li>
-                                                    {{ $item->masterAtk->nama_atk ?? '-' }} /
-                                                    {{ $item->jumlah_keluar }} {{ $item->masterAtk->satuan ?? '' }}
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

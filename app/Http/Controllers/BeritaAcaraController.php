@@ -18,15 +18,12 @@ class BeritaAcaraController extends Controller
         $dataBA = BeritaAcara::with(['atkKeluar.masterAtk', 'unit'])
             ->latest('tanggal_ba', 'desc')
             ->get();
-        // $masterAtk = MasterAtk::orderBy('nama_atk')->get();
-        // $masterUnit = MasterUnit::orderBy('nama_unit')->get();
 
         return view('berita_acara.index', compact('dataBA'));
     }
 
     public function create()
     {
-        // $keluar = AtkKeluar::all();
         $unit = MasterUnit::whereIn('id_unit', function ($query) {
             $query->select('id_unit')->from('atkkeluar')->distinct();
         })->get();
@@ -40,14 +37,16 @@ class BeritaAcaraController extends Controller
     {
         $request->validate([
             'tanggal_ba' => 'required|date',
-            'referensi' => 'required|string|max:100',
+            'referensi' => 'required|string|max:100|unique:berita_acara,referensi',
             'id_unit' => 'required|exists:master_unit,id_unit',
             'tanggal_keluar' => 'required|date',
             'diketahui' => 'required|string|max:255',
             'penerima' => 'required|string|max:255',
             'jabatan_penerima' => 'required|string|max:255',
-            'kode_barcode' => 'required|string|max:100',
+            'kode_barcode' => 'nullable|string|max:100',
             'lampiran.*' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
+        ], [
+            'referensi.unique' => 'No. Nota Dinas sudah pernah digunakan, harap gunakan yang lain.',
         ]);
 
         $atkKeluarList = AtkKeluar::where('id_unit', $request->id_unit)
@@ -118,12 +117,14 @@ class BeritaAcaraController extends Controller
         $beritaAcara = BeritaAcara::findOrFail($id);
         $request->validate([
             'tanggal_ba' => 'required|date',
-            'referensi' => 'required|string|max:100',
+            'referensi' => 'required|string|max:100|unique:berita_acara,referensi,' . $id . ',id_ba',
             'diketahui' => 'required|string|max:255',
             'penerima' => 'required|string|max:255',
             'jabatan_penerima' => 'required|string|max:255',
-            'kode_barcode' => 'required|string|max:100',
+            'kode_barcode' => 'nullable|string|max:100',
             'lampiran.*' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
+        ], [
+            'referensi.unique' => 'No. Nota Dinas sudah pernah digunakan, harap gunakan yang lain.',
         ]);
 
         $data = $request->only([
