@@ -12,9 +12,11 @@ class RequestAtkController extends Controller
 {
     public function index()
     {
-        $dataRequest = RequestAtk::with(['masterAtk', 'user'])
-            ->orderBy('tanggal_request', 'desc')
-            ->get();
+        $user = Auth::user();
+
+        $dataRequest = RequestAtk::whereHas('user', function ($query) use ($user) {
+            $query->where('id_unit', $user->id_unit);
+        })->orderBy('tanggal_request', 'desc')->get();
         $masterAtk = MasterAtk::orderBy('nama_atk')->get();
 
         return view('request_atk.index', compact('dataRequest', 'masterAtk'));
