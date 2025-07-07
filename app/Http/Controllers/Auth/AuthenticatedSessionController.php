@@ -32,11 +32,11 @@ class AuthenticatedSessionController extends Controller
         $user = $request->user();
 
         if ($user->role === 'admin') {
-            return redirect()->intended(route('dashboard.index'));
+            return redirect()->route('dashboard.index');
         }
 
         if ($user->role === 'staff') {
-            return redirect()->intended(route('daftar-atk.index'));
+            return redirect()->route('daftar-atk.index');
         }
 
         // Default jika role tidak diketahui
