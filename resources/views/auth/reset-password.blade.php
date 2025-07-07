@@ -51,10 +51,18 @@
                         <p class="mb-0 text-center">
                             Silakan masukkan kata sandi baru Anda!
                         </p>
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                @foreach ($errors->all() as $error)
+                                    <div>{{ $error }}</div>
+                                @endforeach
+                            </div>
+                        @endif
                         <div class="form-body mt-4">
                             <form class="row g-3" method="POST" action="{{ route('password.store') }}">
                                 @csrf
-                                <input type="hidden" name="token" value="{{ $request->route('token') }}">
+                                <input type="hidden" name="token" value="{{ request()->route('token') }}">
+                                <input type="hidden" name="email" value="{{ request()->email }}">
                                 <!-- Password -->
                                 <div class="col-12">
                                     <label for="password" class="form-label">New Password</label>
