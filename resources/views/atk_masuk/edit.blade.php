@@ -110,7 +110,7 @@
         // Fungsi untuk memilih item dan mengisi input tersembunyi
         function selectOption(id, name) {
             document.getElementById("searchInput").value = name;
-            document.getElementById("atk_id").value = id;
+            document.getElementById("id_atk").value = id;
             document.getElementById("dropdownList").style.display =
                 "none"; // Menyembunyikan dropdown setelah pilihan dipilih
         }
