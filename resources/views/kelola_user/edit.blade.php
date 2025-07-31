@@ -6,12 +6,12 @@
 
 @section('content')
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3 gap-2">
-        <h3 class="mb-0 text-uppercase fw-bold">Edit Data ATK</h3>
+        <h3 class="mb-0 text-uppercase fw-bold">Edit Data User</h3>
     </div>
     <hr />
     <div class="card">
         <div class="card-body p-4">
-            <h5 class="mb-4 text-primary">Form Edit Master ATK</h5>
+            <h5 class="mb-4 text-primary">Form Edit Data User</h5>
             <form action="{{ route('kelola-user.update', $user->id_user) }}" method="POST" enctype="multipart/form-data"
                 class="needs-validation" novalidate>
                 @csrf

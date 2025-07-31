@@ -13,7 +13,7 @@
         <div class="card-body p-4">
             <h5 class="mb-4 text-primary">Form Edit ATK Keluar</h5>
             <form action="{{ route('atk-keluar.update', $atkKeluar->id_keluar) }}" method="POST"
-                enctype="multipart/form-data" class="needs-validation" novalidate>
+                enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="row mb-3">
@@ -34,7 +34,7 @@
                             @error('id_atk')
                                 {{ $message }}
                             @else
-                                Please choose one.
+                                Nama ATK wajib diisi.
                             @enderror
                         </div>
                         <input type="hidden" name="id_atk" id="id_atk"
@@ -47,18 +47,20 @@
                         <input type="date" class="form-control" id="tanggal_keluar" name="tanggal_keluar"
                             value="{{ old('tanggal_keluar', $atkKeluar->tanggal_keluar) }}" required>
                         <div class="invalid-feedback">
-                            Please select date.
+                            Tanggal Keluar wajib diisi.
                         </div>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="jumlah_keluar" class="col-sm-3 col-form-label">Jumlah ATK Keluar</label>
                     <div class="col-sm-9">
-                        <input type="number" class="form-control" id="jumlah_keluar" name="jumlah_keluar"
+                        <input type="number" class="form-control @error('jumlah_keluar') is-invalid @enderror" id="jumlah_keluar" name="jumlah_keluar"
                             placeholder="Masukkan jumlah ATK" value="{{ old('jumlah_keluar', $atkKeluar->jumlah_keluar) }}"
-                            required>
+                            >
                         <div class="invalid-feedback">
-                            Please enter a valid number.
+                            @error('jumlah_keluar')
+                                {{ $message }}
+                            @enderror
                         </div>
                     </div>
                 </div>
