@@ -27,55 +27,67 @@
                         <div class="modal-body">
                             <div class="form-body">
                                 <form action="{{ route('master-atk.store') }}" method="POST" enctype="multipart/form-data"
-                                    class="row g-3 needs-validation" novalidate>
+                                    class="row g-3">
                                     @csrf
                                     <div class="col-md-12">
                                         <label for="nama_atk" class="form-label">Nama ATK</label>
-                                        <input type="text" name="nama_atk" class="form-control" id="nama_atk"
-                                            placeholder="Masukkan nama ATK" value="{{ old('nama_atk') }}" required>
-                                        <div class="invalid-feedback" id="namaatk-error">Please enter a valid input.</div>
+                                        <input type="text" name="nama_atk"
+                                            class="form-control @error('nama_atk') is-invalid @enderror" id="nama_atk"
+                                            placeholder="Masukkan nama ATK" value="{{ old('nama_atk') }}">
+                                        <div class="invalid-feedback">
+                                            @error('nama_atk')
+                                                {{ $message }}
+                                            @enderror
+                                        </div>
                                     </div>
                                     <div class="col-md-12">
                                         <label for="kode_atk" class="form-label">Kode ATK</label>
                                         <input type="text" name="kode_atk"
                                             class="form-control @error('kode_atk') is-invalid @enderror"
-                                            value="{{ old('kode_atk') }}" id="kode_atk" placeholder="Masukkan kode ATK"
-                                            required>
+                                            value="{{ old('kode_atk') }}" id="kode_atk" placeholder="Masukkan kode ATK">
                                         <div class="invalid-feedback">
                                             @error('kode_atk')
                                                 {{ $message }}
-                                            @else
-                                                Please enter a valid input.
                                             @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <label for="jenis_atk" class="form-label">Jenis ATK</label>
-                                        <select name="jenis_atk" id="jenis_atk" class="form-select form-control"
-                                            value="{{ old('jenis_atk') }}" required>
+                                        <select name="jenis_atk" id="jenis_atk"
+                                            class="form-select form-control @error('jenis_atk') is-invalid @enderror"
+                                            value="{{ old('jenis_atk') }}">
                                             <option disabled selected value="">--- Pilih jenis ATK ---
                                             </option>
                                             <option value="habis_pakai">Habis Pakai</option>
                                             <option value="tidak_habis_pakai">Tidak Habis Pakai</option>
                                         </select>
                                         <div class="invalid-feedback">
-                                            Please choose one.
+                                            @error('jenis_atk')
+                                                {{ $message }}
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <label for="satuan" class="form-label">Satuan</label>
-                                        <input type="text" name="satuan" class="form-control" id="satuan"
-                                            placeholder="Masukkan satuan" value="{{ old('satuan') }}" required>
+                                        <input type="text" name="satuan"
+                                            class="form-control @error('satuan') is-invalid @enderror" id="satuan"
+                                            placeholder="Masukkan satuan" value="{{ old('satuan') }}">
                                         <div class="invalid-feedback">
-                                            Please enter a valid input.
+                                            @error('satuan')
+                                                {{ $message }}
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <label for="jumlah_minimum" class="form-label">Jumlah Minimum</label>
-                                        <input type="number" name="jumlah_minimum" class="form-control" id="jumlah_minimum"
-                                            placeholder="Masukkan jumlah minimum" value="{{ old('jumlah_minimum') }}" required>
+                                        <input type="number" name="jumlah_minimum"
+                                            class="form-control @error('jumlah_minimum') is-invalid @enderror"
+                                            id="jumlah_minimum" placeholder="Masukkan jumlah minimum"
+                                            value="{{ old('jumlah_minimum') }}">
                                         <div class="invalid-feedback">
-                                            Please enter a valid number.
+                                            @error('jumlah_minimum')
+                                                {{ $message }}
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -168,8 +180,7 @@
                                 </td>
                                 <td class="text-center">
                                     <div class="d-flex justify-content-center gap-2">
-                                        <a href="{{ route('master-atk.edit', $atk) }}"
-                                            class="btn btn-warning raised p-1"
+                                        <a href="{{ route('master-atk.edit', $atk) }}" class="btn btn-warning raised p-1"
                                             style="
 														width: 30px;
 														height: 30px;

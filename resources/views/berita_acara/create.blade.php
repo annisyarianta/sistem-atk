@@ -6,12 +6,12 @@
 
 @section('content')
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3 gap-2">
-        <h3 class="mb-0 text-uppercase fw-bold">Cetak Berita Acara</h3>
+        <h3 class="mb-0 text-uppercase fw-bold">Tambah Berita Acara</h3>
     </div>
     <hr />
     <div class="card">
         <div class="card-body p-4">
-            <h5 class="mb-4 text-primary">Form Cetak BA</h5>
+            <h5 class="mb-4 text-primary">Form Tambah BA</h5>
             <form action="{{ route('berita-acara.store') }}" method="POST" enctype="multipart/form-data"
                 class="needs-validation" novalidate>
                 @csrf
@@ -79,6 +79,19 @@
                     <div class="col-sm-9">
                         <input type="text" class="form-control" id="diketahui" name="diketahui"
                             placeholder="Diketahui oleh..." value="{{ old('diketahui') }}" required />
+                        <div class="invalid-feedback">
+                            Please enter a valid input.
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="menyetujui" class="col-sm-3 col-form-label">Disetujui Oleh</label>
+                    <div class="col-sm-9">
+                        <select name="menyetujui" id="menyetujui" class="form-select form-control" required>
+                            <option value="" disabled selected>-- Pilih salah satu --</option>
+                            <option value="Rahaditya Saputra">Rahaditya Saputra</option>
+                            <option value="Dian Hardiansyah">Dian Hardiansyah</option>
+                        </select>
                         <div class="invalid-feedback">
                             Please enter a valid input.
                         </div>

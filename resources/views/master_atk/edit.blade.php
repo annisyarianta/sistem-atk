@@ -12,17 +12,18 @@
     <div class="card">
         <div class="card-body p-4">
             <h5 class="mb-4 text-primary">Form Edit Master ATK</h5>
-            <form action="{{ route('master-atk.update', $atk) }}" method="POST" enctype="multipart/form-data"
-                class="needs-validation" novalidate>
+            <form action="{{ route('master-atk.update', $atk) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="row mb-3">
                     <label for="nama_atk" class="col-sm-3 col-form-label">Nama ATK</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="nama_atk" name="nama_atk"
-                            value="{{ old('nama_atk', $atk->nama_atk) }}" required>
+                        <input type="text" class="form-control @error('nama_atk') is-invalid @enderror" id="nama_atk"
+                            name="nama_atk" placeholder="Masukkan nama ATK" value="{{ old('nama_atk', $atk->nama_atk) }}">
                         <div class="invalid-feedback">
-                            Please enter a valid name.
+                            @error('nama_atk')
+                                {{ $message }}
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -30,12 +31,10 @@
                     <label for="kode_atk" class="col-sm-3 col-form-label">Kode ATK</label>
                     <div class="col-sm-9">
                         <input type="text" class="form-control @error('kode_atk') is-invalid @enderror" id="kode_atk"
-                            name="kode_atk" value="{{ old('kode_atk', $atk->kode_atk) }}" required>
+                            name="kode_atk" placeholder="Masukkan kode ATK" value="{{ old('kode_atk', $atk->kode_atk) }}">
                         <div class="invalid-feedback">
                             @error('kode_atk')
                                 {{ $message }}
-                            @else
-                                Please enter a valid input.
                             @enderror
                         </div>
                     </div>
@@ -43,34 +42,42 @@
                 <div class="row mb-3">
                     <label for="jenis_atk" class="col-sm-3 col-form-label">Jenis ATK</label>
                     <div class="col-sm-9">
-                        <select id="jenis_atk" name="jenis_atk" class="form-select form-control" required>
+                        <select id="jenis_atk" name="jenis_atk"
+                            class="form-select form-control @error('jenis_atk') is-invalid @enderror">
                             <option value="habis_pakai" {{ $atk->jenis_atk == 'habis_pakai' ? 'selected' : '' }}>Habis Pakai
                             </option>
                             <option value="tidak_habis_pakai"
                                 {{ $atk->jenis_atk == 'tidak_habis_pakai' ? 'selected' : '' }}>Tidak Habis Pakai</option>
                         </select>
                         <div class="invalid-feedback">
-                            Please choose one.
+                            @error('jenis_atk')
+                                {{ $message }}
+                            @enderror
                         </div>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="satuan" class="col-sm-3 col-form-label">Satuan</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="satuan" name="satuan"
-                            value="{{ old('satuan', $atk->satuan) }}" required />
+                        <input type="text" class="form-control @error('satuan') is-invalid @enderror" id="satuan"
+                            name="satuan" placeholder="Masukkan satuan" value="{{ old('satuan', $atk->satuan) }}" />
                         <div class="invalid-feedback">
-                            Please enter a valid input.
+                            @error('satuan')
+                                {{ $message }}
+                            @enderror
                         </div>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="jumlah_minimum" class="col-sm-3 col-form-label">Jumlah Minimum</label>
                     <div class="col-sm-9">
-                        <input type="number" class="form-control" id="jumlah_minimum" name="jumlah_minimum"
-                            value="{{ old('jumlah_minimum', $atk->jumlah_minimum) }}" required />
+                        <input type="number" class="form-control @error('jumlah_minimum') is-invalid @enderror"
+                            id="jumlah_minimum" name="jumlah_minimum" placeholder="Masukkan jumlah minimum ATK"
+                            value="{{ old('jumlah_minimum', $atk->jumlah_minimum) }}" />
                         <div class="invalid-feedback">
-                            Please enter a valid input.
+                            @error('jumlah_minimum')
+                                {{ $message }}
+                            @enderror
                         </div>
                     </div>
                 </div>

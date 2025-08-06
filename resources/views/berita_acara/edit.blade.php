@@ -58,6 +58,21 @@
                     </div>
                 </div>
                 <div class="row mb-3">
+                    <label for="menyetujui" class="col-sm-3 col-form-label">Disetujui Oleh</label>
+                    <div class="col-sm-9">
+                        <select name="menyetujui" id="menyetujui" class="form-select form-control" required>
+                            <option value="" disabled selected>-- Pilih salah satu --</option>
+                            <option value="Rahaditya Saputra" {{ $beritaAcara->menyetujui == 'Rahaditya Saputra' ? 'selected' : '' }}>Rahaditya Saputra
+                            </option>
+                            <option value="Dian Hardiansyah"
+                                {{ $beritaAcara->menyetujui == 'Dian Hardiansyah' ? 'selected' : '' }}>Dian Hardiansyah</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please enter a valid input.
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
                     <label for="penerima" class="col-sm-3 col-form-label">Penerima</label>
                     <div class="col-sm-9">
                         <input type="text" class="form-control" id="penerima" name="penerima"

@@ -12,8 +12,7 @@
     <div class="card">
         <div class="card-body p-4">
             <h5 class="mb-4 text-primary">Form Edit ATK Masuk</h5>
-            <form action="{{ route('atk-masuk.update', $atkMasuk->id_masuk) }}" method="POST" enctype="multipart/form-data"
-                class="needs-validation" novalidate>
+            <form action="{{ route('atk-masuk.update', $atkMasuk->id_masuk) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="row mb-3">
@@ -33,10 +32,11 @@
                             @error('id_atk')
                                 {{ $message }}
                             @else
-                                Please choose one.
+                                Nama ATK wajib diisi.
                             @enderror
                         </div>
-                        <input type="hidden" name="id_atk" id="id_atk" value="{{ old('id_atk', $atkMasuk->id_atk ?? '') }}">
+                        <input type="hidden" name="id_atk" id="id_atk"
+                            value="{{ old('id_atk', $atkMasuk->id_atk ?? '') }}">
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -45,29 +45,33 @@
                         <input type="date" class="form-control" id="tanggal_masuk" name="tanggal_masuk"
                             value="{{ old('tanggal_masuk', $atkMasuk->tanggal_masuk) }}" required>
                         <div class="invalid-feedback">
-                            Please select date.
+                            Tanggal Masuk wajib diisi.
                         </div>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="jumlah_masuk" class="col-sm-3 col-form-label">Jumlah ATK Masuk</label>
                     <div class="col-sm-9">
-                        <input type="number" class="form-control" id="jumlah_masuk" name="jumlah_masuk"
-                            placeholder="Masukkan jumlah ATK" value="{{ old('jumlah_masuk', $atkMasuk->jumlah_masuk) }}"
-                            required>
+                        <input type="number" class="form-control @error('jumlah_masuk') is-invalid @enderror"
+                            id="jumlah_masuk" name="jumlah_masuk" placeholder="Masukkan jumlah ATK"
+                            value="{{ old('jumlah_masuk', $atkMasuk->jumlah_masuk) }}">
                         <div class="invalid-feedback">
-                            Please enter a valid number.
+                            @error('jumlah_masuk')
+                                {{ $message }}
+                            @enderror
                         </div>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="harga_satuan" class="col-sm-3 col-form-label">Harga Satuan</label>
                     <div class="col-sm-9">
-                        <input type="number" class="form-control" id="harga_satuan" name="harga_satuan"
-                            placeholder="Masukkan harga" value="{{ old('harga_satuan', $atkMasuk->harga_satuan) }}"
-                            required>
+                        <input type="number" class="form-control @error('harga_satuan') is-invalid @enderror"
+                            id="harga_satuan" name="harga_satuan" placeholder="Masukkan harga"
+                            value="{{ old('harga_satuan', $atkMasuk->harga_satuan) }}">
                         <div class="invalid-feedback">
-                            Please enter a valid number.
+                            @error('harga_satuan')
+                                {{ $message }}
+                            @enderror
                         </div>
                     </div>
                 </div>

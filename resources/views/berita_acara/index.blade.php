@@ -9,7 +9,7 @@
         <h3 class="mb-0 text-uppercase fw-bold">Berita Acara</h3>
         <div>
             <a href="{{ route('berita-acara.create') }}" class="btn btn-sm btn-grd btn-grd-primary">
-                Cetak Berita Acara
+                Tambah Berita Acara
             </a>
         </div>
     </div>
@@ -117,6 +117,10 @@
                                                                         <td>{{ $ba->diketahui }}</td>
                                                                     </tr>
                                                                     <tr>
+                                                                        <th scope="row">Disetujui oleh</th>
+                                                                        <td>{{ $ba->menyetujui ?? '-' }}</td>
+                                                                    </tr>
+                                                                    <tr>
                                                                         <th scope="row">Penerima</th>
                                                                         <td>{{ $ba->penerima }}</td>
                                                                     </tr>
@@ -126,7 +130,7 @@
                                                                     </tr>
                                                                     <tr>
                                                                         <th scope="row">Kode Barcode</th>
-                                                                        <td>{{ $ba->kode_barcode }}</td>
+                                                                        <td>{{ $ba->kode_barcode ?? '-' }}</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <th scope="row">Nama Barang/Jumlah</th>

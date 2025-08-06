@@ -117,20 +117,48 @@
             <tr>
                 <th style="border: none">Diketahui :</th>
                 <th style="border: none"></th>
-                <th style="border: none">Telah Diterima Oleh :</th>
+                <th style="border: none">Menyetujui :</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td style="padding-bottom: 80px; border: none"><b>Asst. Manager of <br>Finance & Human Resources</b>
+                <td style="padding-bottom: 80px; border: none"><b>Asset Management & General<br>Services Department
+                        Head</b>
                 </td>
                 <td style="padding-bottom: 80px; border: none"><b></b></td>
-                <td style="padding-bottom: 80px; border: none"><b>{{ $beritaAcara->jabatan_penerima }}</b></td>
+                <td style="padding-bottom: 80px; border: none"><b>Asset Management & General<br>Services Junior
+                        Officer</b>
+                </td>
             </tr>
             <tr>
-                <td style="border: none"><b><u>{{ $beritaAcara->diketahui }}</u></b></td>
+                <td style="border: none"><b><u>{{ strtoupper($beritaAcara->diketahui) }}</u></b></td>
                 <td style="border: none"><b><u></u></b></td>
-                <td style="border: none"><b><u>{{ $beritaAcara->penerima }}</u></b></td>
+                <td style="border: none"><b><u>{{ strtoupper($beritaAcara->menyetujui) }}</u></b></td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <br>
+
+    <table style="border: none">
+        <thead>
+            <tr>
+                <th style="border: none"></th>
+                <th style="border: none">Telah Diterima Oleh :</th>
+                <th style="border: none"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding-bottom: 80px; border: none"><b></b></td>
+                <td style="padding-bottom: 80px; border: none"><b>{{ $beritaAcara->jabatan_penerima }}</b></td>
+                <td style="padding-bottom: 80px; border: none"><b></b></td>
+            </tr>
+            <tr>
+                <td style="border: none"><b><u></u></b></td>
+                <td style="border: none"><b><u>{{ strtoupper($beritaAcara->penerima) }}</u></b></td>
+                <td style="border: none"><b><u></u></b></td>
             </tr>
         </tbody>
     </table>
@@ -140,8 +168,7 @@
 
     @if ($beritaAcara->lampiran && is_array($beritaAcara->lampiran))
         @foreach (array_chunk($beritaAcara->lampiran, 4) as $chunk)
-            <div
-                style="border: 2px solid black; padding: 15px; margin-top: 20px; box-sizing: border-box;">
+            <div style="border: 2px solid black; padding: 15px; margin-top: 20px; box-sizing: border-box;">
 
                 <table style="width: 100%; text-align: center; border-collapse: collapse; border: none;">
                     @for ($i = 0; $i < 2; $i++)

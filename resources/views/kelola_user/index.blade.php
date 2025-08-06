@@ -27,12 +27,12 @@
                         <div class="modal-body">
                             <div class="form-body">
                                 <form action="{{ route('kelola-user.store') }}" method="POST" enctype="multipart/form-data"
-                                    class="row g-3 needs-validation" novalidate>
+                                    class="row g-3">
                                     @csrf
                                     <div class="col-md-12">
                                         <label for="role" class="form-label">Role</label>
                                         <select name="role" id="role"
-                                            class="form-select form-control @error('role') is-invalid @enderror" required>
+                                            class="form-select form-control @error('role') is-invalid @enderror">
                                             <option disabled {{ old('role') ? '' : 'selected' }} value="">--- Pilih
                                                 Role ---
                                             </option>
@@ -40,13 +40,15 @@
                                             <option value="staff">Staff</option>
                                         </select>
                                         <div class="invalid-feedback">
-                                            Please choose one.
+                                            @error('role')
+                                                {{ $message }}
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <label for="id_unit" class="form-label">Unit</label>
                                         <select name="id_unit" id="id_unit"
-                                            class="form-select @error('id_unit') is-invalid @enderror" required>
+                                            class="form-select @error('id_unit') is-invalid @enderror">
                                             <option disabled {{ old('id_unit') ? '' : 'selected' }} value="">
                                                 --- Pilih Unit ---
                                             </option>
@@ -58,35 +60,43 @@
                                             @endforeach
                                         </select>
                                         <div class="invalid-feedback">
-                                            Please choose one.
+                                            @error('id_unit')
+                                                {{ $message }}
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <label for="nama" class="form-label">Nama</label>
-                                        <input type="text" name="nama" class="form-control" id="nama"
-                                            placeholder="Masukkan nama pengguna" value="{{ old('nama') }}" required>
-                                        <div class="invalid-feedback" id="nama-error">Please enter a valid name.</div>
+                                        <input type="text" name="nama"
+                                            class="form-control @error('nama') is-invalid @enderror" id="nama"
+                                            placeholder="Masukkan nama pengguna" value="{{ old('nama') }}">
+                                        <div class="invalid-feedback">
+                                            @error('nama')
+                                                {{ $message }}
+                                            @enderror
+                                        </div>
                                     </div>
                                     <div class="col-md-12">
                                         <label for="email" class="form-label">Email</label>
                                         <input type="email" name="email"
                                             class="form-control @error('email') is-invalid @enderror"
-                                            value="{{ old('email') }}" id="email" placeholder="Masukkan email pengguna"
-                                            required>
+                                            value="{{ old('email') }}" id="email"
+                                            placeholder="Masukkan email pengguna">
                                         <div class="invalid-feedback">
                                             @error('email')
                                                 {{ $message }}
-                                            @else
-                                                Please enter a valid email.
                                             @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <label for="password" class="form-label">Password</label>
-                                        <input type="text" name="password" class="form-control" id="password"
-                                            placeholder="Masukkan kata sandi" value="{{ old('password') }}" required>
+                                        <input type="text" name="password"
+                                            class="form-control @error('password') is-invalid @enderror" id="password"
+                                            placeholder="Masukkan kata sandi" value="{{ old('password') }}">
                                         <div class="invalid-feedback">
-                                            Please enter a valid password.
+                                            @error('password')
+                                                {{ $message }}
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="modal-footer border-top-0 pb-0">

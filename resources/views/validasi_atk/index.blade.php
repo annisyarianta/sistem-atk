@@ -131,7 +131,7 @@
                                 <input type="number" class="form-control" id="edit_jumlah_request" name="jumlah_request"
                                     placeholder="Masukkan jumlah ATK" value="" required />
                                 <div class="invalid-feedback">
-                                    Please enter a valid value.
+                                    Jumlah ATK wajib diisi.
                                 </div>
                             </div>
                             <div class="modal-footer border-top-0 pb-0">

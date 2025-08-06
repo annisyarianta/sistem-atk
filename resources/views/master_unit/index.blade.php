@@ -27,18 +27,16 @@
                         <div class="modal-body">
                             <div class="form-body">
                                 <form action="{{ route('master-unit.store') }}" method="POST" enctype="multipart/form-data"
-                                    class="row g-3 needs-validation" novalidate>
+                                    class="row g-3">
                                     @csrf
                                     <div class="col-md-12">
                                         <label for="nama_unit" class="form-label">Nama Unit</label>
                                         <input type="text" name="nama_unit"
                                             class="form-control @error('nama_unit') is-invalid @enderror" id="nama_unit"
-                                            placeholder="Masukkan nama unit" value="{{ old('nama_unit') }}" required>
+                                            placeholder="Masukkan nama unit" value="{{ old('nama_unit') }}">
                                         <div class="invalid-feedback">
                                             @error('nama_unit')
                                                 {{ $message }}
-                                            @else
-                                                Please enter a valid input.
                                             @enderror
                                         </div>
                                     </div>

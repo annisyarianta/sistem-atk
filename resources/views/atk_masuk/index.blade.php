@@ -33,7 +33,7 @@
                         <div class="modal-body">
                             <div class="form-body">
                                 <form action="{{ route('atk-masuk.store') }}" method="POST" enctype="multipart/form-data"
-                                    class="row g-3 needs-validation" novalidate>
+                                    class="row g-3">
                                     @csrf
                                     <div class="col-md-12">
                                         <label for="searchInput" class="form-label">Nama ATK</label>
@@ -41,7 +41,7 @@
                                             <input type="text" id="searchInput" placeholder="--- Pilih ATK ---"
                                                 onkeyup="filterFunction()"
                                                 class="form-control @error('id_atk') is-invalid @enderror"
-                                                value="{{ old('nama_atk') }}" required autocomplete="off">
+                                                value="{{ old('nama_atk') }}" autocomplete="off">
                                             <i class="fas fa-chevron-down dropdown-arrow"></i>
                                             <div id="dropdownList" class="dropdown-content">
                                                 @foreach ($masterAtk as $atk)
@@ -52,8 +52,6 @@
                                             <div class="invalid-feedback">
                                                 @error('id_atk')
                                                     {{ $message }}
-                                                @else
-                                                    Please choose one.
                                                 @enderror
                                             </div>
                                             <input type="hidden" name="id_atk" id="id_atk" value="{{ old('id_atk') }}">
@@ -61,26 +59,35 @@
                                     </div>
                                     <div class="col-md-12">
                                         <label for="tanggal_masuk" class="form-label">Tanggal ATK Masuk</label>
-                                        <input type="date" class="form-control" id="tanggal_masuk" name="tanggal_masuk"
-                                            value="{{ old('tanggal_masuk') }}" required>
+                                        <input type="date"
+                                            class="form-control @error('tanggal_masuk') is-invalid @enderror"
+                                            id="tanggal_masuk" name="tanggal_masuk" value="{{ old('tanggal_masuk') }}">
                                         <div class="invalid-feedback">
-                                            Please select date.
+                                            @error('tanggal_masuk')
+                                                {{ $message }}
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="jumlah_masuk" class="form-label">Jumlah ATK Masuk</label>
-                                        <input type="number" class="form-control" id="jumlah_masuk" name="jumlah_masuk"
-                                            placeholder="Masukkan jumlah ATK" value="{{ old('jumlah_masuk') }}" required>
+                                        <input type="number"
+                                            class="form-control @error('jumlah_masuk') is-invalid @enderror"
+                                            id="jumlah_masuk" name="jumlah_masuk" placeholder="Masukkan jumlah ATK"
+                                            value="{{ old('jumlah_masuk') }}">
                                         <div class="invalid-feedback">
-                                            Please enter a valid number.
+                                            @error('jumlah_masuk')
+                                                {{ $message }}
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="harga_satuan" class="form-label">Harga Satuan</label>
-                                        <input type="number" class="form-control" id="harga_satuan" name="harga_satuan"
-                                            placeholder="Masukkan harga" value="{{ old('harga_satuan') }}" required>
+                                        <input type="number" class="form-control @error('harga_satuan') is-invalid @enderror" id="harga_satuan" name="harga_satuan"
+                                            placeholder="Masukkan harga" value="{{ old('harga_satuan') }}">
                                         <div class="invalid-feedback">
-                                            Please enter a valid number.
+                                            @error('harga_satuan')
+                                                {{ $message }}
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="modal-footer border-top-0 pb-0">

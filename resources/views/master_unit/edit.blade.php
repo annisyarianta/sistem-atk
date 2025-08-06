@@ -13,19 +13,17 @@
         <div class="card-body p-4">
             <h5 class="mb-4 text-primary">Form Edit Master Unit</h5>
             <form action="{{ route('master-unit.update', $unit->id_unit) }}" method="POST" enctype="multipart/form-data"
-                class="needs-validation" novalidate>
+                >
                 @csrf
                 @method('PUT')
                 <div class="row mb-3">
                     <label for="nama_unit" class="col-sm-3 col-form-label">Nama Unit</label>
                     <div class="col-sm-9">
                         <input type="text" class="form-control @error('nama_unit') is-invalid @enderror"" id="nama_unit" name="nama_unit"
-                            value="{{ old('nama_unit', $unit->nama_unit) }}" required>
+                            value="{{ old('nama_unit', $unit->nama_unit) }}" >
                         <div class="invalid-feedback">
                             @error('nama_unit')
                                 {{ $message }}
-                            @else
-                                Please enter a valid input.
                             @enderror
                         </div>
                     </div>
