@@ -15,6 +15,7 @@ class BeritaAcara extends Model
         'referensi',
         'id_unit',
         'diketahui',
+        'menyetujui',
         'penerima',
         'jabatan_penerima',
         'kode_barcode',
