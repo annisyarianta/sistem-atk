@@ -64,8 +64,8 @@
                             <option value="" disabled selected>-- Pilih salah satu --</option>
                             <option value="Rahaditya Saputra" {{ $beritaAcara->menyetujui == 'Rahaditya Saputra' ? 'selected' : '' }}>Rahaditya Saputra
                             </option>
-                            <option value="Dian Hardiansyah"
-                                {{ $beritaAcara->menyetujui == 'Dian Hardiansyah' ? 'selected' : '' }}>Dian Hardiansyah</option>
+                            <option value="Dian Hardiansah"
+                                {{ $beritaAcara->menyetujui == 'Dian Hardiansah' ? 'selected' : '' }}>Dian Hardiansah</option>
                         </select>
                         <div class="invalid-feedback">
                             Please enter a valid input.

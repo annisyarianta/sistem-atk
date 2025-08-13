@@ -90,7 +90,7 @@
                         <select name="menyetujui" id="menyetujui" class="form-select form-control" required>
                             <option value="" disabled selected>-- Pilih salah satu --</option>
                             <option value="Rahaditya Saputra">Rahaditya Saputra</option>
-                            <option value="Dian Hardiansyah">Dian Hardiansyah</option>
+                            <option value="Dian Hardiansah">Dian Hardiansah</option>
                         </select>
                         <div class="invalid-feedback">
                             Please enter a valid input.
